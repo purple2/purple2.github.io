@@ -225,13 +225,13 @@ Vlad.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            console.log("Hit right");
+            //console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.vlad_Right_hit_animation.isDone()) {
-                console.log("end of right hit animation");
+                //console.log("end of right hit animation");
                 this.vlad_Right_hit_animation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -239,13 +239,13 @@ Vlad.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            console.log("hit left");
+            //console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.vlad_Left_hit_animation.isDone()) {
-                console.log("end of hit animation Left");
+                //console.log("end of hit animation Left");
                 this.vlad_Left_hit_animation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -286,10 +286,10 @@ Vlad.prototype.update = function () {
 
         var height = totalHeight * (howHigh * (jumpDistance * jumpDistance - jumpDistance));
         this.y = this.ground - height;
-        if (this.game.rightArrow && this.x < 1100) {
+        if (this.controlled && this.game.rightArrow && this.x < 1100) {
             this.x += 10;
 
-        } else if (this.game.leftArrow && this.x > -50) {
+        } else if (this.controlled && this.game.leftArrow && this.x > -50) {
             this.x -= 10;
 
         }

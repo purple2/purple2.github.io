@@ -240,13 +240,13 @@ John.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            console.log("Hit right");
+           //console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.bdyRight.isDone()) {
-                console.log("end of right hit animation");
+                //console.log("end of right hit animation");
                 this.bdyRight.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -254,13 +254,13 @@ John.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            console.log("hit left");
+            //console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.bdyLeft.isDone()) {
-                console.log("end of hit animation Left");
+                //console.log("end of hit animation Left");
                 this.bdyLeft.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -500,7 +500,7 @@ John.prototype.draw = function (ctx) {
             this.wkKickRight.drawFrame(this.game, ctx, this.x - 40, this.y - 150);
         } else if (!this.isRight) {
             this.wkKickLeft.drawFrame(this.game, ctx, this.x - 70, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -515,7 +515,7 @@ John.prototype.draw = function (ctx) {
             this.strKickRight.drawFrame(this.game, ctx, this.x - 80, this.y - 150);
         } else if (!this.isRight) {
             this.strKickLeft.drawFrame(this.game, ctx, this.x - 100, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.idleRight.drawFrame(this.game, ctx, this.x, this.y - 150);
