@@ -19,8 +19,12 @@ ASSET_MANAGER.queueDownload("./img/Vlad_Sprite_reverse.png");
 ASSET_MANAGER.queueDownload("./img/syrym1.png");
 ASSET_MANAGER.queueDownload("./img/syrym1reversed.png");
 
+ASSET_MANAGER.queueDownload("./img/startup.png");
 ASSET_MANAGER.queueDownload("./img/char_select.png");
 ASSET_MANAGER.queueDownload("./img/staircase.png");
+
+ASSET_MANAGER.queueDownload("./img/youwin.png")
+ASSET_MANAGER.queueDownload("./img/youlose.png")
 
 ASSET_MANAGER.queueDownload("./img/lifebarRIGHT.png");
 ASSET_MANAGER.queueDownload("./img/lifebarLEFT.png");
