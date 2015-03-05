@@ -9,7 +9,7 @@ function Alex(game, isPlayer) {
     this.alex_leftjumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 750.5, 1615, 251.5, 325, 0.15, 5, false, true, 0);
 
     this.alex_blockRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 4200+10, 251.5, 325, 1, 1, true, false, 0);
-    this.alex_blockLeftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 1756.5, 4200+10, 251.5, 325, 1, 1, true, false, 0);
+    this.alex_blockLeftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008-1756.5, 4200+10, 251.5, 325, 1, 1, true, true, 0);
 
 
     /////new controls animation 
@@ -29,20 +29,44 @@ function Alex(game, isPlayer) {
     this.alex_strong_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 0, 251.5, 325, .1, 4, false, false, 0);
     this.alex_strong_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 0, 251.5, 325, .1, 4, false, true, 0);
 
-    //victory
-    this.alex_victory_Animation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 3875, 251.5, 325, .2, 4, false, false, 0);
-   
-    //loss
-    this.alex_loss_Animation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 3875-325, 251.5, 325, .2, 4, false, false, 0);
-    
-    //hit right
-    this.alex_high_hit_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 2585, 251.5, 325, .1, 4, false, false, 0);
+    //----------------------------------------------------------------------------------added animations for win/lost here
 
-    //hit left
+    //victory loop 1
+    this.alex_victory_Animation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 3875, 251.5, 325, .2, 4, false, false, 0);
+    this.alex_victory_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 3875, 251.5, 325, .2, 4, false, true, 0);
+
+    //victory loop 2 (to stay at last column of sprite)
+    this.alex_victory_Animation2 = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 754.5, 3875, 251.5, 325, 1, 1, true, false, 0);
+    this.alex_victory_leftAnimation2 = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008-754.5, 3875, 251.5, 325, 1, 1, true, false, 0);
+   
+    //lost loop 1
+    this.alex_lost_Animation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 3875 - 325, 251.5, 325, .2, 4, false, false, 0);
+    this.alex_lost_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 3875 - 325, 251.5, 325, .2, 4, false, true, 0);
+    
+
+    //loss loop 2 (to stay at last column of sprite)
+    this.alex_lost_Animation2 = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 754.5, 3875 - 325, 251.5, 325, 1, 1, true, false, 0);
+    this.alex_lost_leftAnimation2 = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 754.5, 3875 - 325, 251.5, 325, 1, 1, true, true, 0);
+    
+    //----------------------------------------------------------------------------------ended anim for win/lost here
+
+    //high hit
+    this.alex_high_hit_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 2585, 251.5, 325, .1, 4, false, false, 0);
     this.alex_high_hit_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 2585, 251.5, 325, .1, 4, false, true, 0);
+
+    //low hit
+    this.alex_low_hit_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 2585 + 325, 251.5, 325, .1, 4, false, false, 0);
+    this.alex_low_hit_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 2585 + 325, 251.5, 325, .1, 4, false, true, 0);
+
+    //----------------------------------------------------------------------------------added taunt anim here
+    //taunt
+    this.alex_taunt_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 2250 + 10 - 325, 251.5, 325, .2, 4, false, false, 0);
+    this.alex_taunt_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 2250 + 10 - 325, 251.5, 325, .2, 4, false, true, 0);
+    //----------------------------------------------------------------------------------ended taunt anim here
 
     //new boolean values added here
     this.weak_punch = false;
+    this.taunt = false;//----------------------------------------------------------------------------------set taunt to false here
     this.weak_kick = false;
     this.strong_punch = false;
     this.strong_kick = false;
@@ -50,6 +74,8 @@ function Alex(game, isPlayer) {
     this.sittingLeft = false;
     this.sittingRight = false;
     this.rightwalk = false;
+    this.lost = false;
+    this.won = false;
     this.leftwalk = false;
     this.current_action = false;
     this.gotHit = false;
@@ -135,8 +161,19 @@ Alex.prototype.update = function () {
             this.strong_punch = false;
             this.weak_kick = false;
             this.weak_punch = true;
-            this.current_action = true;
-            ////////////////////////////////////////////Added if statement^^
+            this.current_action = true;//----------------------------------------------------------------------------------added taunt anim here
+        } else if (this.game.theTPressed && this.current_action === false) {//T taunt
+            this.rightwalk = false;
+            this.leftwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+            this.strong_kick = false;
+            this.strong_punch = false;
+            this.weak_kick = false;
+            this.taunt = true;
+            this.current_action = true;//----------------------------------------------------------------------------------added taunt anim here
         } else if (this.game.theSPressed && this.current_action === false) {//S weak kick
             this.rightwalk = false;
             this.leftwalk = false;
@@ -149,7 +186,6 @@ Alex.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = true;
             this.current_action = true;
-            ////////////////////////////////////////////Added if statement and weak action booleans^^^^
         } else if (this.game.theDPressed && this.current_action === false) {//D Strong punch
             this.rightwalk = false;
             this.leftwalk = false;
@@ -161,7 +197,6 @@ Alex.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = false;
             this.current_action = true;
-            ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = true;
         } else if (this.game.theFPressed && this.current_action === false) {//F Strong kick
             this.rightwalk = false;
@@ -174,7 +209,6 @@ Alex.prototype.update = function () {
             this.weak_kick = false;
             this.strong_kick = true;
             this.current_action = true;
-            ////////////////////////////////////////////Added weak action booleans^^
 
         } else if (this.isRight && this.current_action === false) {//if not any previous actions then just idle to right
             this.rightwalk = false;
@@ -185,7 +219,6 @@ Alex.prototype.update = function () {
             this.sittingLeft = false;
             this.weak_punch = false;
             this.weak_kick = false;
-            ////////////////////////////////////////////Added weak action booleans^^
         } else if (!this.isRight && this.current_action === false) {// idle to left
             this.rightwalk = false;
             this.leftwalk = false;
@@ -195,9 +228,14 @@ Alex.prototype.update = function () {
             this.sittingLeft = false;
             this.weak_punch = false;
             this.weak_kick = false;
-            ////////////////////////////////////////////Added weak action booleans^^
         }
+
     }
+    if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
+        this.lost = true;
+        this.controlled = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------ended if for win/lost here
     if (!this.controlled && !this.current_action) {
         this.rightwalk = false;
         this.rightwalk = false;
@@ -212,7 +250,7 @@ Alex.prototype.update = function () {
         this.weak_punch = true;
         this.current_action = true;
     }
-    if (this.gotHit) {//<-----------------------------------------new from here
+    if (this.gotHit) {
         this.current_action = true;
         this.rightwalk = false;
         this.leftwalk = false;
@@ -258,7 +296,7 @@ Alex.prototype.update = function () {
                 this.gotHit = false;
 
             }
-        }//<-------------------------to here 
+        }
 
     }//end of added code
 
@@ -295,20 +333,10 @@ Alex.prototype.update = function () {
 
             var height = totalHeight * (howHigh * (jumpDistance * jumpDistance - jumpDistance));
             this.y = this.ground - height;
-            if (this.game.rightArrow) {
+            if (this.game.rightArrow && this.x<1100 && this.controlled) {
                 this.x += 10;
-                //if(this.game.theFPressed){
-                //    this.x += 15;
-                //} else {
-                //    this.x += 10;
-                //}
-            } else if (this.game.leftArrow) {
+            } else if (this.game.rightArrow && this.x < -50 && this.controlled) {
                 this.x -= 10;
-                //    if(this.game.theFPressed){
-                //        this.x -= 15;
-                //    } else {
-                //        this.x -= 10;
-                //    }
             }
             this.leftwalk = false;
             this.rightwalk = false;
@@ -318,12 +346,127 @@ Alex.prototype.update = function () {
             this.sittingLeft = false;
             this.weak_punch = false;
             this.weak_kick = false;
-            ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = false;
             this.strong_kick = false;
 
-        }
+    }
+    if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
+        if (this.isRight) {
+            if (this.alex_lost_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
 
+            }
+        } else {
+            if (this.alex_lost_leftAnimation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
+            }
+        }
+    }
+    if (this.won) {
+        if (this.isRight) {
+            if (this.alex_lost_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.gotHit = false;
+                this.strong_kick = false;
+
+            }
+        } else {
+            if (this.alex_lost_leftAnimation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.gotHit = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }//----------------------------------------------------------------------------------ended if for win/lost here
+
+    if (this.taunt) {//----------------------------------------------------------------------------------added taunt anim here
+        if (this.isRight) {
+            if (this.alex_taunt_rightAnimation.isDone()) {
+                this.alex_taunt_rightAnimation.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = true;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+
+            }
+        } else {
+            if (this.alex_taunt_leftAnimation.isDone()) {
+                this.alex_taunt_leftAnimation.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }//----------------------------------------------------------------------------------added taunt anim here
         if (this.weak_punch) {
             if (this.isRight) {
                 if (this.alex_weak_punch_rightAnimation.currentFrame() === 3) {
@@ -419,6 +562,7 @@ Alex.prototype.update = function () {
                 }
             }
         }
+        
         ////////////////////////////////////////////Added if statement^^
         if (this.strong_kick) {
             if (this.isRight) {
@@ -479,7 +623,7 @@ Alex.prototype.draw = function (ctx) {
         } else {
             this.alex_leftjumpAnimation.drawFrame(this.game, ctx, this.x, this.y - 190);
         }
-    } else if (this.gotHit) {//<-----------------------------------------------------------added hit animation here
+    } else if (this.gotHit) {
         if (this.isRight) {
             this.alex_high_hit_rightAnimation.drawFrame(this.game, ctx, this.x , this.y - 150);
         } else {
@@ -493,6 +637,30 @@ Alex.prototype.draw = function (ctx) {
         this.alex_blockLeftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.sittingRight) {
         this.alex_blockRightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+    } else if (this.lost) {//<--------------------------------------------------------------------------added loss/win animation here
+        if (this.isRight) {
+            this.alex_lost_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.alex_lost_Animation.isDone()) {
+                this.alex_lost_Animation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+        } else{
+            this.alex_lost_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.alex_lost_leftAnimation.isDone()) {
+                this.alex_lost_leftAnimation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+        }
+    } else if (this.won) {
+        if (this.isRight) {
+            this.alex_victory_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.alex_victory_Animation.isDone()) {
+                this.alex_victory_Animation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+        } else {
+            this.alex_victory_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.alex_victory_leftAnimation.isDone()) {
+                this.alex_victory_leftAnimation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+        }//<------------------------------------------------------------------------------------------added loss/win animation here
     } else if (this.weak_punch) {
         if (this.isRight) {
             this.alex_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
@@ -501,12 +669,20 @@ Alex.prototype.draw = function (ctx) {
             //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
+    } else if (this.taunt) {//----------------------------------------------------------------------------------added taunt anim here
+        if (this.isRight) {
+            this.alex_taunt_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+        } else if (!this.isRight) {
+            this.alex_taunt_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+        }//----------------------------------------------------------------------------------added taunt anim here
+        ////////////////////////////////////////////Added if statement^^
     } else if (this.weak_kick) {
         if (this.isRight) {
             this.alex_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -521,7 +697,7 @@ Alex.prototype.draw = function (ctx) {
             this.alex_strong_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_strong_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.alex_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 150);
