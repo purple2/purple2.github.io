@@ -62,8 +62,15 @@ Hitbox.prototype.attackenemy = function () {
                 damage *= 8;
             }
             
+            if (ent.bar.greenwidth <= 0) {
+                ent.gotHit = false;
+                damage = 0;
+            } else {
+                ent.gotHit = true;
+                
+            }
+            
             ent.bar.decreaseHealth(damage);
-            ent.gotHit = true;
             console.log("Player hit lost " + damage + "health");
         }
     } else if (ent2.myboxes.ID != this.ID) {
@@ -84,10 +91,16 @@ Hitbox.prototype.attackenemy = function () {
             } else {
                 damage *= 8;
             }
+            
+            if (ent2.bar.greenwidth <= 0) {
+            ent2.gotHit = false;
+            damage = 0;
+            } else {
+                ent2.gotHit = true;
+            }
 
             console.log("Player hit lost " + damage + "health");
             ent2.bar.decreaseHealth(damage);
-            ent2.gotHit = true;
             
         }
     }
