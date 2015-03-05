@@ -335,7 +335,7 @@ Alex.prototype.update = function () {
             this.y = this.ground - height;
             if (this.game.rightArrow && this.x<1100 && this.controlled) {
                 this.x += 10;
-            } else if (this.game.rightArrow && this.x < -50 && this.controlled) {
+            } else if (this.game.leftArrow && this.x > -50 && this.controlled) {
                 this.x -= 10;
             }
             this.leftwalk = false;
