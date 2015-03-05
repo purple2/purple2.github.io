@@ -8,6 +8,7 @@ window.requestAnimFrame = (function () {
             function (/* function */ callback, /* DOMElement */ element) {
                 window.setTimeout(callback, 1000 / 60);
             };
+    
 })();
 
 
@@ -54,7 +55,8 @@ function GameEngine() {
     this.leftPressed = false;
 
     //Game States
-    this.inMenu = true;
+    this.inStartup = true;
+    this.inMenu = false;
     this.inFight = false;
     this.fightOver = false;
     this.gameOver = false;
@@ -73,7 +75,6 @@ GameEngine.prototype.init = function (ctx) {
     this.startInput();
     this.timer = new Timer();
     this.timebar = new TimeBar(ctx);
-
     console.log('game initialized');
 }
 
@@ -81,37 +82,113 @@ GameEngine.prototype.start = function () {
     console.log("starting game");
     var that = this;
     (function gameLoop() {
-        if (that.inMenu) {
+        if (that.inStartup) {
+            that.displayStartup();
+        }else if (that.inMenu) {
             that.getSelections();
         } else if (that.inFight) {
 
             //console.log("In gameLoop inFight");
             that.loop();
             requestAnimFrame(gameLoop, that.ctx.canvas);
-        } else {//------------------------------
+        } else if(that.gameOver){//------------------------------
             that.displayMessage();
         }//-------------------------------------
     })();
 }
 
+function YouLose(game, background) {
+    this.active_background = background;
+    this.x = 0;
+    this.y = 0;
+    this.startX = 0;
+    this.startY = 0;
+    this.game = game;
+    this.ctx = game.ctx;
+}
+
+YouLose.prototype.draw = function () {
+    //console.log(this.active_background);
+    this.ctx.drawImage(this.active_background,
+                  0, 0,  // source from sheet
+                  700, 300,
+                  325, 50,
+                  700,
+                  300);
+}
+
+YouLose.prototype.update = function () {
+    //do nothing
+}
+
 // ---------------------------------
 GameEngine.prototype.displayMessage = function () {
-    this.inMessage = true;
-    var message = "";
-    if (this.Fighter.bar.health <= 0) {
-        message = "You are NOT the man!"
+    console.log("In Message");
+    var that = this;
+    
+    //var message = "";
+    //this.ctx.canvas.addEventListener("click", function (e) {     
+    //        that.inStartup = false;
+    //        that.inMessage = false;
+    //        that.inMenu = true;
+    //        that.start();
+    //})
+    if (this.Fighter.bar.greenwidth <= 0) {
+        this.addEntity(new YouLose(this, ASSET_MANAGER.getAsset("./img/youlose.png")));
+
+        (function listenForSelection() {
+            console.log("listening for selection");
+            if (that.gameOver) {
+                that.loop();
+                console.log("in listening, called loop");
+                requestAnimFrame(listenForSelection, that.ctx.canvas);
+            } else {
+                return;
+            }
+        })();
     } else {
-        message = "You da man, yo!"
+        //this.addEntity(new Background(this, ASSET_MANAGER.getAsset("./img/youwin.png")));
+        this.addEntity(new YouLose(this, ASSET_MANAGER.getAsset("./img/youwin.png")));
+        (function listenForSelection() {
+            console.log("listening for selection");
+            if (that.gameOver) {
+                that.loop();
+                console.log("in listening, called loop");
+                requestAnimFrame(listenForSelection, that.ctx.canvas);
+            } else {
+                return;
+            }
+        })();
     }
 
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = 'italic bold 60px sans-serif';
-    this.ctx.textBaseline = 'bottom';
-    this.ctx.fillText(message, 380, 200);
-    this.ctx.fillText("Click to Select New Fighter", 300, 400);
-    //this.inMenu = true;
-    //this.start();
+    //this.ctx.fillStyle = 'black';
+    //this.ctx.font = 'italic bold 60px sans-serif';
+    //this.ctx.textBaseline = 'bottom';
+    //this.ctx.fillText(message, 380, 200);
+    //this.ctx.fillText("Click to Select New Fighter", 150, 400);
+    ////this.inMenu = true;
+    ////this.start();
 }
+
+GameEngine.prototype.displayStartup = function () {
+    console.log("In Startup");
+   
+    var that = this;
+
+    this.ctx.canvas.addEventListener("click", function (e) {
+
+        if (that.inStartup) {
+            that.inMenu = true;
+            that.inStartup = false;
+            console.log('State changed.');
+            that.start();
+        } else { return; }
+    })
+
+    this.ctx.drawImage(ASSET_MANAGER.getAsset("./img/startup.png"), 0,0);
+    
+    
+};
 
 GameEngine.prototype.clearEntities = function () {
     var clear_ind = 0;
@@ -123,56 +200,27 @@ GameEngine.prototype.clearEntities = function () {
 
 GameEngine.prototype.updateFight = function () {
     this.inFight = false;
-
-    this.clearEntities();
+    this.gameOver = true;
+    //this.clearEntities();
 };
-
-GameEngine.prototype.getCharacter = function ( id, isPlayer) {
-    var fighter = null;
-
-    switch (id) {
-        case 0:
-            fighter = new John(this, isPlayer);
-            break;
-        case 1:
-            fighter = new Alex(this, isPlayer);
-            break;            
-        case 2:
-            fighter = new Vlad(this, isPlayer);
-            break;
-        case 3:
-            fighter = new Syrym(this, isPlayer);
-            break;
-    }
-
-    //console.log(id + " selected " + fighter.toString());
-    
-    return fighter;
-}
-
 //-------------------------------
 GameEngine.prototype.setFighters = function (selection) {
-    this.Fighter = this.getCharacter( selection, true);
-    //this.Fighter = this.Fighters[selection];
-    //this.Fighter.isPlayer = true;
+    this.Fighter = this.Fighters[selection];
+    this.Fighter.isPlayer = true;
     this.Fighter.updateOrientation();
     this.Fighter.loadEnergyBar(new Bar(this, this.Fighter));
-
-    //Select opponent
     var opponentIndex = selection;
 
     while (selection === opponentIndex) {
-        opponentIndex = Math.floor(Math.random() * 4/*Num Fighters*/);
+        opponentIndex = Math.floor(Math.random() * this.Fighters.length);
     }
 
-    this.Opponent = this.getCharacter(opponentIndex, false);
-    //this.Opponent.isPlayer = false;
+    this.Opponent = this.Fighters[opponentIndex];
+    this.Opponent.isPlayer = false;
     this.Opponent.updateOrientation();
     this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
-
-    this.clearEntities();
     
-    //Add Components of fight.
+    this.ctx.clearRect ( 0 , 0 , this.ctx.width, this.ctx.height );
     this.addEntity(new Background(this, ASSET_MANAGER.getAsset("./img/staircase.png")));
     this.addEntity(this.Fighter);
     this.addEntity(this.Opponent);
@@ -182,13 +230,13 @@ GameEngine.prototype.setFighters = function (selection) {
 
     console.log('Finished Selecting');
 
+    this.inStartup = false;
     this.inMenu = false;
     this.inFight = true;
     console.log('State changed.');
 
     this.start();
 };
-
 
 GameEngine.prototype.getSelections = function () {
     console.log('In menu');
@@ -197,20 +245,20 @@ GameEngine.prototype.getSelections = function () {
 
     this.ctx.canvas.addEventListener("click", function (e) {
         if (that.inMenu) {
-            console.log(Math.floor(e.clientX /  337.5));
-            that.setFighters(Math.floor(e.clientX /  337.5));
-        } else if (that.inMessage){//-----
+            //console.log(Math.floor(e.clientX / 337.5));
+            that.setFighters(Math.floor(e.clientX / 337.5));
+        } else if (that.inMessage) {//-----
+            that.inStartup = false;
             that.inMessage = false;
             that.inMenu = true;
             that.start();
         }//-------------------------------
     })
-
-    this.addEntity(new Background(this, ASSET_MANAGER.getAsset("./img/char_select.png")));
-
+    this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+    this.ctx.drawImage(ASSET_MANAGER.getAsset("./img/char_select.png"), 0, 0);
     (function listenForSelection() {
         console.log("listening for selection");
-        if (that.inMenu) {
+        if (that.inStartup) {
             that.loop();
             console.log("in listening, called loop");
             requestAnimFrame(listenForSelection, that.ctx.canvas);
@@ -219,6 +267,8 @@ GameEngine.prototype.getSelections = function () {
         }
 
     })();
+
+
 };
 
 GameEngine.prototype.startInput = function () {
