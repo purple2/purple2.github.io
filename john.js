@@ -83,8 +83,9 @@ John.prototype.updateOrientation = function () {
     this.start = this.isPlayer ? 100 : 1000;
     this.ground = 440;
     this.controlled = this.isPlayer;
-    
-
+    if (!this.isPlayer) {
+        this.my_ai = new Ai_controller(this.game, 30);
+    }
     Entity.call(this, this.game, this.start, this.ground);
 }
 
@@ -210,17 +211,18 @@ John.prototype.update = function () {
         }
     }
     if (!this.controlled && !this.current_action) {
-        this.rightwalk = false;
-        this.leftwalk = false;
-        this.standing = false;
-        this.standingLeft = false;
-        this.sittingRight = false;
-        this.sittingLeft = false;
-        this.strong_kick = false;
-        this.strong_punch = false;
-        this.weak_kick = true;
-        this.weak_punch = false;
-        this.current_action = true;
+        this.my_ai.action();
+        //this.rightwalk = false;
+        //this.leftwalk = false;
+        //this.standing = false;
+        //this.standingLeft = false;
+        //this.sittingRight = false;
+        //this.sittingLeft = false;
+        //this.strong_kick = false;
+        //this.strong_punch = false;
+        //this.weak_kick = true;
+        //this.weak_punch = false;
+        //this.current_action = true;
     }
     if (this.gotHit) {//<-----------------------------------------new from here
         this.current_action = true;

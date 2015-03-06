@@ -100,6 +100,9 @@ Alex.prototype.updateOrientation = function () {
     this.start = this.isPlayer ? 100 : 1000;
     this.ground = 410;
     this.controlled = this.isPlayer;
+    if (!this.isPlayer) {
+        this.my_ai = new Ai_controller(this.game, 30);
+    }
     Entity.call(this, this.game, this.start, this.ground);
 }
 
@@ -237,18 +240,19 @@ Alex.prototype.update = function () {
     }
     //----------------------------------------------------------------------------------------------------------------ended if for win/lost here
     if (!this.controlled && !this.current_action) {
-        this.rightwalk = false;
-        this.rightwalk = false;
-        this.leftwalk = false;
-        this.standing = false;
-        this.standingLeft = false;
-        this.sittingRight = false;
-        this.sittingLeft = false;
-        this.strong_kick = false;
-        this.strong_punch = false;
-        this.weak_kick = false;
-        this.weak_punch = true;
-        this.current_action = true;
+        this.my_ai.action();
+        //this.rightwalk = false;
+        //this.rightwalk = false;
+        //this.leftwalk = false;
+        //this.standing = false;
+        //this.standingLeft = false;
+        //this.sittingRight = false;
+        //this.sittingLeft = false;
+        //this.strong_kick = false;
+        //this.strong_punch = false;
+        //this.weak_kick = false;
+        //this.weak_punch = true;
+        //this.current_action = true;
     }
     if (this.gotHit) {
         this.current_action = true;

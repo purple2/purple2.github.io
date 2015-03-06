@@ -86,6 +86,9 @@ Syrym.prototype.updateOrientation = function () {
     this.ground = 355;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
+    if (!this.isPlayer) {
+        this.my_ai = new Ai_controller(this.game, 30);
+    }
     Entity.call(this, this.game, this.start, this.ground);
 }
 
@@ -211,17 +214,18 @@ Syrym.prototype.update = function () {
         }
     }
     if (!this.controlled && !this.current_action) {
-        this.rightwalk = false;
-        this.leftwalk = false;
-        this.standing = false;
-        this.standingLeft = false;
-        this.sittingRight = false;
-        this.sittingLeft = false;
-        this.strong_kick = false;
-        this.strong_punch = false;
-        this.weak_kick = false;
-        this.weak_punch = true;
-        this.current_action = true;
+        this.my_ai.action();
+        //this.rightwalk = false;
+        //this.leftwalk = false;
+        //this.standing = false;
+        //this.standingLeft = false;
+        //this.sittingRight = false;
+        //this.sittingLeft = false;
+        //this.strong_kick = false;
+        //this.strong_punch = false;
+        //this.weak_kick = false;
+        //this.weak_punch = true;
+        //this.current_action = true;
     }
     if (this.gotHit) {//<-----------------------------------------new from here
         this.current_action = true;
