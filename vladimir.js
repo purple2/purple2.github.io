@@ -33,7 +33,11 @@ function Vlad(game, isPlayer) {
 
     this.vlad_victory_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), 0, (2304 / 5) * 14, (307.2) + 2, 2304 / 5, .1, 10, false, false, 32);
 
-    this.vlad_loss_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), 0, (2304 / 5) * 13, (1536 / 5) + 2, 2304 / 5, .1, 7, false, true, 32);
+    this.vlad_loss_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), 0, (2304 / 5) * 13, (1536 / 5) + 2, 2304 / 5, .1, 7, false, false, 32);
+
+    this.vlad_loss_final_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), ((1536 / 5) + 2) * 6, (2304 / 5) * 11, (1536 / 5) + 2, 2304 / 5, .1, 1, true, false, 32);
+
+    this.vlad_victory_final_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), ((1536 / 5) + 2) * 2, (2304 / 5) * 15, (1536 / 5) + 2, 2304 / 5, .1, 1, true, true, 32);
 
     this.vlad_Right_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), 0, (2304 / 5) * 11, (1536 / 5) + 2, 2304 / 5, .1, 7, false, false, 32);
 
@@ -46,12 +50,13 @@ function Vlad(game, isPlayer) {
     this.strong_kick = false;
     this.current_action = false;
     this.gotHit = false;
-
+    this.lost = false;
+    this.won = false;
     this.isPlayer = isPlayer;
     this.jumping = false;
     this.sittingLeft = false;
     this.sittingRight = false;
-
+    this.taunt = false;
     this.standing = true;
     this.rightwalk = false;
 
@@ -81,6 +86,9 @@ Vlad.prototype.updateOrientation = function () {
     this.ground = 410;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
+    if (!this.isPlayer) {
+        this.my_ai = new Ai_controller(this.game, 30);
+    }
     Entity.call(this, this.game, this.start, this.ground);
 }
 
@@ -95,10 +103,6 @@ Vlad.prototype.update = function () {
         this.myboxes.setHitbox(this.x + 70, this.y - 140, 125, 300);
     }
 
-
-    if (this.game.thePPressed) {
-        this.controlled = !this.controlled;
-    }
     if (this.controlled) {
         if (this.game.space) {
             this.jumping = true;
@@ -195,18 +199,23 @@ Vlad.prototype.update = function () {
             this.sittingLeft = false;
         }
     }
+    if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
+        this.lost = true;
+        this.controlled = false;
+    }
     if (!this.controlled && !this.current_action) {
-        this.rightwalk = false;
-        this.leftwalk = false;
-        this.standing = false;
-        this.standingLeft = false;
-        this.sittingRight = false;
-        this.sittingLeft = false;
-        this.strong_kick = false;
-        this.strong_punch = false;
-        this.weak_kick = false;
-        this.weak_punch = true;
-        this.current_action = true;
+        this.my_ai.action();
+        //this.rightwalk = false;
+        //this.leftwalk = false;
+        //this.standing = false;
+        //this.standingLeft = false;
+        //this.sittingRight = false;
+        //this.sittingLeft = false;
+        //this.strong_kick = false;
+        //this.strong_punch = false;
+        //this.weak_kick = false;
+        //this.weak_punch = true;
+        //this.current_action = true;
     }
     if (this.gotHit) {//<-----------------------------------------new from here
         this.current_action = true;
@@ -304,6 +313,43 @@ Vlad.prototype.update = function () {
         this.strong_punch = false;
         this.strong_kick = false;
 
+    }
+    if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
+        if (this.vlad_loss_animation.isDone()) {
+            this.jumping = false;
+            this.standing = false;
+            this.current_action = false;
+            this.leftwalk = false;
+            this.rightwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+            this.weak_punch = false;
+            this.weak_kick = false;
+            this.strong_punch = false;
+            this.strong_kick = false;
+            this.gotHit = false;
+        }
+    }
+
+    if (this.won) {
+        if (this.vlad_victory_animation.isDone()) {
+            this.jumping = false;
+            this.standing = false;
+            this.current_action = false;
+            this.leftwalk = false;
+            this.rightwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+            this.weak_punch = false;
+            this.weak_kick = false;
+            this.strong_punch = false;
+            this.gotHit = false;
+            this.strong_kick = false;
+        }
     }
 
     if (this.weak_punch) {
@@ -468,12 +514,26 @@ Vlad.prototype.draw = function (ctx) {
         //console.log("block Left");
     } else if (this.sittingRight) {
         this.vlad_blockRightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
+    } else if (this.lost) {
+
+
+        this.vlad_loss_animation.drawFrame(this.game, ctx, this.x, this.y - 300);
+        if (this.vlad_loss_animation.isDone()) {
+            this.vlad_loss_final_animation.drawFrame(this.game, ctx, this.x, this.y - 300);
+        }
+
+    } else if (this.won) {
+
+        this.vlad_victory_animation.drawFrame(this.game, ctx, this.x, this.y - 300);
+        if (this.vlad_victory_animation.isDone()) {
+
+            this.vlad_victory_final_animation.drawFrame(this.game, ctx, this.x, this.y - 300);
+        }
     } else if (this.weak_punch) {
         if (this.isRight) {
             this.vlad_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
         } else if (!this.isRight) {
             this.vlad_weak_punch_leftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-
         }
     } else if (this.weak_kick) {
         if (this.isRight) {
