@@ -12,25 +12,25 @@ Ai_controller.prototype.action = function () {
     if (this.count === 0) {
 
     
-    if (ent2.x - ent.x > 125) {
+    if (ent2.x - ent.x > 105) {
         ent2.leftwalk = true;
         ent2.rightwalk = false;
         ent2.standing = false;
         ent2.standingLeft = false;
         ent2.isRight = false;
         ent2.x += -2;
-        if (ent2.x - ent.x <= 125) {
+        if (ent2.x - ent.x <= 105) {
             this.count = this.wait;
         }
         //move left
-    } else if(ent2.x-ent.x< -10){
+    } else if(ent2.x-ent.x< -90){
         ent2.rightwalk = true;
         ent2.leftwalk = false;
         ent2.standing = false;
         ent2.standingLeft = false;
         ent2.isRight = true;
         ent2.x += 2;
-        if (ent2.x - ent.x >= -10) {
+        if (ent2.x - ent.x >= -90) {
             this.count = this.wait;
         }
     } else {

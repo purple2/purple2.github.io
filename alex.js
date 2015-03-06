@@ -208,8 +208,6 @@ Alex.prototype.update = function () {
             this.standingLeft = false;
             this.sittingRight = false;
             this.sittingLeft = false;
-            this.weak_punch = false;
-            this.weak_kick = false;
             this.strong_kick = true;
             this.current_action = true;
 

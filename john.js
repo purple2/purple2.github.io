@@ -1,11 +1,11 @@
 function John(game, isPlayer) {
     //idle
-    this.idleRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, -20, 100, 290, .3, 5, true, false, 0);
-    this.idleLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 2020, -20, 100, 290, .3, 5, true, false, 0);
+    this.idleRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, -20, 150, 290, .3, 5, true, false, 0);
+    this.idleLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1770, -20, 150, 290, .3, 5, true, false, 0);
 
     //walk
-    this.walkLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 840, 260, 140, 280, 0.07, 12, true, false, 0);
-    this.walkRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 260, 140, 280, 0.07, 12, true, false, 0);
+    this.walkLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 840, 260, 140, 280, 0.05, 12, true, false, 0);
+    this.walkRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 260, 140, 280, 0.05, 12, true, false, 0);
 
     //taunt
     this.tauntLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 0, 540, 120, 330, .07, 9, false, false, 0);
@@ -21,12 +21,12 @@ function John(game, isPlayer) {
 
     /////new controls animation 
     //weak punch
-    this.wkPunchRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 1890, 180, 280, .03, 11, false, false, 0);
-    this.wkPunchLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 540, 1890, 180, 280, .03, 11, false, true, 0);
+    this.wkPunchRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 1890, 180, 280, .05, 11, false, false, 0);
+    this.wkPunchLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 540, 1890, 180, 280, .05, 11, false, true, 0);
 
     //weak kick
-    this.wkKickRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 2450, 200, 280, .03, 12, false, false, 0);
-    this.wkKickLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 120, 2450, 200, 280, .03, 12, false, true, 0);
+    this.wkKickRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 2450, 200, 280, .05, 12, false, false, 0);
+    this.wkKickLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 120, 2450, 200, 280, .05, 12, false, true, 0);
 
     //strong punch
     this.strPunchRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 2170, 200, 280, .07, 6, false, false, 0);
@@ -47,11 +47,19 @@ function John(game, isPlayer) {
     //Defeat
     this.defeatRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 3570, 120, 280, .07, 6, false, false, 0);
     this.defeatLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1800, 3570, 120, 280, .07, 6, false, true, 0);
+    
+    //Defeat still shot
+    this.defeatRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 600, 3570, 120, 280, 5, 1, false, false, 0);
+    this.defeatLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 2400, 3570, 120, 280, 5, 1, false, true, 0);
 
     //Victory
-    this.victoryRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 0, 3850, 180, 280, .07, 8, false, false, 0);
-    this.victoryLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1560, 3850, 180, 280, .07, 8, false, true, 0);
-	
+    this.victoryRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 10, 3850, 135, 380, .07, 8, false, false, 0);
+    this.victoryLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440, 3850, 135, 380, .07, 8, false, true, 0);
+
+    //Victory still shot
+    this.victoryRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 955, 3850, 135, 380, 5, 1, false, false, 0);
+    this.victoryLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440+955, 3850, 135, 380, 5, 1, false, true, 0);
+    
     //new boolean values added here
     this.weak_punch = false;
     this.weak_kick = false;
@@ -86,6 +94,7 @@ John.prototype.updateOrientation = function () {
     if (!this.isPlayer) {
         this.my_ai = new Ai_controller(this.game, 30);
     }
+
     Entity.call(this, this.game, this.start, this.ground);
 }
 
@@ -94,9 +103,6 @@ John.prototype.update = function () {
         this.myboxes.setHitbox(this.x + 20, this.y - 130, 70, 250);
     } if (!this.isRight) {
         this.myboxes.setHitbox(this.x + 10, this.y - 130, 70, 250);
-    }
-    if (this.game.thePPressed) {
-        this.controlled = !this.controlled;
     }
 
     if (this.controlled) {//
@@ -303,12 +309,17 @@ John.prototype.update = function () {
 
             var height = totalHeight * (howHigh * (jumpDistance * jumpDistance - jumpDistance));
             this.y = this.ground - height;
-            if (this.game.rightArrow) {
+            /*if (this.game.rightArrow) {
                 this.x += 10;
                 
             } else if (this.game.leftArrow) {
                 this.x -= 10;
                 
+            }*/
+            if (this.game.rightArrow && this.x < 1100 && this.controlled) {
+                this.x += 10;
+            } else if (this.game.leftArrow && this.x > -50 && this.controlled) {
+                this.x -= 10;
             }
             this.leftwalk = false;
             this.rightwalk = false;
@@ -321,9 +332,123 @@ John.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = false;
             this.strong_kick = false;
-
+    }
+    if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
+        if (this.isRight) {
+            if (this.defeatRight.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
+            }
+        } else {
+            if (this.defeatLeft.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
+            }
         }
+    }
+    if (this.won) {
+        if (this.isRight) {
+            if (this.victoryRight.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.gotHit = false;
+                this.strong_kick = false;
 
+            }
+        } else {
+            if (this.victoryLeft.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.gotHit = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }//----------------------------------------------------------------------------------ended if for win/lost here
+
+    if (this.taunt) {//----------------------------------------------------------------------------------added taunt anim here
+        if (this.isRight) {
+            if (this.tauntRight.isDone()) {
+                this.tauntRight.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = true;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+
+            }
+        } else {
+            if (this.tauntLeft.isDone()) {
+                this.tauntLeft.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }
         if (this.weak_punch) {
             if (this.isRight) {
                 if (this.wkPunchRight.currentFrame() === 10) {
@@ -447,13 +572,21 @@ John.prototype.update = function () {
             }
         }
 
-        if (this.controlled && this.rightwalk) {
+        /*if (this.controlled && this.rightwalk) {
             this.x += 3;
             
         } else if (this.controlled && this.leftwalk) {
             this.x -= 3;
             
+        }*/
+        if (this.controlled && this.rightwalk && this.x <= 1150) {
+            this.x += 5;
+
+        } else if (this.controlled && this.leftwalk && this.x >= -50) {
+            this.x -= 5;
+
         }
+
         
     //Entity.prototype.update.call(this);
 }
@@ -489,6 +622,32 @@ John.prototype.draw = function (ctx) {
         this.blockLeft.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.sittingRight) {
         this.blockRight.drawFrame(this.game, ctx, this.x, this.y - 150);
+    } else if (this.lost) {//<--------------------------------------------------------------------------added loss/win animation here
+        if (this.isRight) {
+            this.defeatRight.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.defeatRight.isDone()) {
+                this.defeatRightStill.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+
+        } else {
+            this.defeatLeft.drawFrame(this.game, ctx, this.x, this.y - 150);
+            if (this.defeatRight.isDone()) {
+                this.defeatRightStill.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
+
+        }
+    } else if (this.won) {
+        if (this.isRight) {
+            this.victoryRight.drawFrame(this.game, ctx, this.x, this.y - 200);
+            if (this.victoryRight.isDone()) {
+                this.victoryRightStill.drawFrame(this.game, ctx, this.x, this.y - 200)
+            }
+        } else {
+            this.victoryLeft.drawFrame(this.game, ctx, this.x, this.y - 200);
+            if (this.victoryLeft.isDone()) {
+                this.victoryLeftStill.drawFrame(this.game, ctx, this.x, this.y - 200)
+            }
+        }
     } else if (this.weak_punch) {
         if (this.isRight) {
             this.wkPunchRight.drawFrame(this.game, ctx, this.x, this.y - 150);
