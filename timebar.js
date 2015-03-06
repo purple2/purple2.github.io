@@ -48,6 +48,9 @@ TimeBar.prototype.update = function () {
 		}
 	}
 	this.lastTime = this.seconds;
+	if ( this.timesec <= 0 && this.s1 === 0 && this.s2 === 0 ) {
+	    this.game.timeOutWinner();
+	}
 }
 
 TimeBar.prototype.draw = function (ctx) {
