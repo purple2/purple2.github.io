@@ -60,12 +60,16 @@ function GameEngine() {
     this.inFight = false;
     this.fightOver = false;
     this.gameOver = false;
+    this.paused = false;
+    this.pauseCycles = 120;
+    //Fighters
+    //this.Fighters = [new John(this, null), new Alex(this, null), new Vlad(this, null), new Syrym(this, null)];
+    //this.selection = null;
+    // this.Bar = new Bar();
 
     //Fighters
-    this.Fighters = [new John(this, null), new Alex(this, null), new Vlad(this, null), new Syrym(this, null)];
-    this.selection = null;
-   // this.Bar = new Bar();
-
+    this._NUM_FIGHTERS = 4;
+    this.fightersUsed = [];
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -123,7 +127,7 @@ YouLose.prototype.update = function () {
 
 // ---------------------------------
 GameEngine.prototype.displayMessage = function () {
-    console.log("In Message");
+    /*console.log("In Message");
     var that = this;
     
     //var message = "";
@@ -160,7 +164,7 @@ GameEngine.prototype.displayMessage = function () {
             }
         })();
     }
-
+    */
     //this.ctx.fillStyle = 'black';
     //this.ctx.font = 'italic bold 60px sans-serif';
     //this.ctx.textBaseline = 'bottom';
@@ -176,7 +180,6 @@ GameEngine.prototype.displayStartup = function () {
     var that = this;
 
     this.ctx.canvas.addEventListener("click", function (e) {
-
         if (that.inStartup) {
             that.inMenu = true;
             that.inStartup = false;
@@ -186,8 +189,6 @@ GameEngine.prototype.displayStartup = function () {
     })
 
     this.ctx.drawImage(ASSET_MANAGER.getAsset("./img/startup.png"), 0,0);
-    
-    
 };
 
 GameEngine.prototype.clearEntities = function () {
@@ -198,45 +199,176 @@ GameEngine.prototype.clearEntities = function () {
     }
 };
 
-GameEngine.prototype.updateFight = function () {
-    this.inFight = false;
-    this.gameOver = true;
-    //this.clearEntities();
-};
-//-------------------------------
-GameEngine.prototype.setFighters = function (selection) {
-    this.Fighter = this.Fighters[selection];
-    this.Fighter.isPlayer = true;
-    this.Fighter.updateOrientation();
-    this.Fighter.loadEnergyBar(new Bar(this, this.Fighter));
-    var opponentIndex = selection;
+GameEngine.prototype.updateWinner = function (character) {
+    //A fighters win status has three states:  0:true, 1:false, 2:undetermined.
+    if (character.isPlayer) {
+        this.opponentWins++;
+        this.paused = true;
+        this.loser = true;
+       
+        console.log("Opponents Wins = " + this.opponentWins);
+    } else {
+        this.playerWins++;
+        this.paused = true;
+        this.winner = true;
+ 
+        //console.log("Player Wins = " + this.playerWins);
+    }
+    //console.log("Opponent Rounds Won = " + this.opponentWins + " Player Rounds Won = " + this.playerWins);
+}
 
-    while (selection === opponentIndex) {
-        opponentIndex = Math.floor(Math.random() * this.Fighters.length);
+GameEngine.prototype.updateFight = function () {
+    console.log("Updating Fight...");
+
+    if (!this.paused) {
+        if (this.playerWins > 1) {
+            //console.log("YOU WON THIS MATCH");
+            //Get next Opponent
+            if (this.fightersUsed.length === this._NUM_FIGHTERS) {
+                console.log("YOU ARE THE BADDEST MAN IN T-TOWN!!!");
+                this.fightersUsed = [];
+                this.inFight = false;
+                this.inMenu = true;
+            } else {
+                //get next opponent
+                console.log("Get Next Opponent");
+                this.loadNextFight();
+            }
+        } else if (this.opponentWins > 1) {
+            //Return to Character Select Screen for now, maybe a Continue Option.
+            console.log("YOU'LL NEVER BE KING OF THESE STREETS FIGHTING LIKE THAT")
+            this.fightersUsed = [];
+            this.inFight = false;
+            this.inMenu = true;
+
+        } else {
+            //Repeat the same fight.
+            this.resetFighters(this.fightersUsed[0], this.fightersUsed[this.fightersUsed.length - 1]);
+            //console.log("Time for round 2");
+        }
+        //console.log("Done Updating Fight");
+    }
+};
+
+GameEngine.prototype.loadNextFight = function () {
+    console.log("Loading Next Fight...");
+
+    var opponentIndex = 0;
+
+    while (this.fightersUsed.indexOf(opponentIndex) > -1) { opponentIndex = Math.floor(Math.random() * this._NUM_FIGHTERS) };
+
+    this.Opponent = this.getCharacter(opponentIndex, false);
+    this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
+    this.fightersUsed.push(opponentIndex);
+
+    this.Fighter = this.getCharacter(this.fightersUsed[0], true);
+    this.Fighter.loadEnergyBar(new Bar(this, this.Fighter));
+
+    this.setUpFight();
+    this.loadFighters();
+    console.log("Done Loading Next Fight");
+};
+
+GameEngine.prototype.getCharacter = function (id, isPlayer) {
+    console.log("Getting Character...");
+    var fighter = null;
+
+    switch (id) {
+        case 0:
+            fighter = new John(this, isPlayer);
+            break;
+        case 1:
+            fighter = new Alex(this, isPlayer);
+            break;
+        case 2:
+            fighter = new Vlad(this, isPlayer);
+            break;
+        case 3:
+            fighter = new Syrym(this, isPlayer);
+            break;
     }
 
-    this.Opponent = this.Fighters[opponentIndex];
-    this.Opponent.isPlayer = false;
-    this.Opponent.updateOrientation();
-    this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
-    
-    this.ctx.clearRect ( 0 , 0 , this.ctx.width, this.ctx.height );
+    //console.log(id + " selected " + fighter.toString());
+    fighter.updateOrientation();
+
+    return fighter;
+    console.log("Done Getting Character");
+}
+
+//USED BY NEW SELECT OPPONENT 
+GameEngine.prototype.loadFighters = function () {
+    //console.log("Loading fighters...");
+
+    //Add Components of fight.
+    this.clearEntities();
     this.addEntity(new Background(this, ASSET_MANAGER.getAsset("./img/staircase.png")));
     this.addEntity(this.Fighter);
     this.addEntity(this.Opponent);
     this.addEntity(this.Fighter.bar);
     this.addEntity(this.Opponent.bar);
-    this.addEntity(this.timebar);
+    this.addEntity(new TimeBar(this));
 
-    console.log('Finished Selecting');
+    //console.log('Finished Loading Fighters');
+};
 
-    this.inStartup = false;
+
+GameEngine.prototype.timeOutWinner = function () {
+    this.updateWinner(this.Fighter.bar.greenwidth > this.Opponent.bar.greenwidth ? this.Opponent : this.Fighter);
+}
+
+GameEngine.prototype.setUpFight = function () {
+    //console.log("Setting Up Fight...");
+    this.playerWins = 0;
+    this.opponentWins = 0;
+    //console.log("Fight Set");
+};
+
+GameEngine.prototype.resetFighters = function (selection, opponentIndex) {
+    //console.log("Resetting Fighters...");
+
+    this.Fighter = this.getCharacter(selection, true);
+    this.Fighter.loadEnergyBar(new Bar(this, this.Fighter));
+    this.Opponent = this.getCharacter(opponentIndex, false);
+    this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
+
+    this.loadFighters();
+    
+    //console.log("Done Resetting Characters");
+};
+
+//-------------------------------
+GameEngine.prototype.setFighters = function (selection) {
+    console.log("Setting Fighters...");
+    this.Fighter = this.getCharacter(selection, true);
+    this.Fighter.loadEnergyBar(new Bar(this, this.Fighter));
+
+    //START NEW SELECT OPPONENT CODE 
+    this.fightersUsed.push(selection);
+
+    //Select opponent
+    var opponentIndex = selection;
+
+    //Find an opponent who has not already been used.
+    while (this.fightersUsed.indexOf(opponentIndex) > -1) {
+        opponentIndex = Math.floor(Math.random() * this._NUM_FIGHTERS);;
+    }
+
+    this.Opponent = this.getCharacter(opponentIndex, false);
+    this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
+
+    this.fightersUsed.push(opponentIndex);
+
+    this.setUpFight();
+    this.loadFighters();
     this.inMenu = false;
     this.inFight = true;
-    console.log('State changed.');
-
+    
+    //console.log('State changed inMenu -> inFight.');
+    //console.log("Done Setting Fighters");
     this.start();
+    //END NEW SELECT OPPONENT CODE
 };
+
 
 GameEngine.prototype.getSelections = function () {
     console.log('In menu');
@@ -352,23 +484,51 @@ GameEngine.prototype.startInput = function () {
         }
 
     }, false);
-    console.log('Input started');
+    //console.log('Input started');
 }
 
 GameEngine.prototype.addEntity = function (entity) {
-    console.log('added entity');
+    //console.log('added entity');
     this.entities.push(entity);
 }
 
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
+    
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
-  /*  if (this.inFight) {
-        this.Bar.draw(this.ctx);
-    }*/
+
+    if (this.paused) {
+        if (this.pauseCycles > 0) {
+            this.pauseCycles--;
+            if (this.loser === true) {
+                this.ctx.drawImage(ASSET_MANAGER.getAsset("./img/youlose.png"),
+                           0, 0,  // source from sheet
+                           700, 300,
+                           325, 50,
+                           700, 200);
+                this.Fighter.lost = true;
+                this.Opponent.win = true;
+            } else if (this.winner === true) {
+                this.ctx.drawImage(ASSET_MANAGER.getAsset("./img/youwin.png"),
+                       0, 0,  // source from sheet
+                       700, 300,
+                       325, 50,
+                       700, 200);
+                this.Fighter.won = true;
+                this.Opponent.lost = true;
+            }
+        } else {
+            this.pauseCycles = 120;
+            this.paused = false;
+            this.winner = false;
+            this.loser = false;
+            this.updateFight();
+        }  
+    }
+
     this.ctx.restore();
 }
 
@@ -392,8 +552,11 @@ GameEngine.prototype.update = function () {
 
 GameEngine.prototype.loop = function () {
     this.clockTick = this.timer.tick();
-    this.update();
+    if (!this.paused) {
+        this.update();
+    }
     this.draw();
+    
     this.space = null;
 }
 
