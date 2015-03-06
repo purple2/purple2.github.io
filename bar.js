@@ -50,7 +50,7 @@ Bar.prototype.decreaseHealth = function (damage) {
     this.health -= damage;
     this.fighter.isPlayer ? this.greenwidth -= damage : this.greenX += damage, this.greenwidth -= damage;
     if (this.greenwidth <= 0) {
-        this.fighter.game.updateWinner();
+        this.fighter.game.updateWinner(this.fighter);
         console.log("updated fight");
     }
     console.log("Health = " + this.health +", Greenwidth = " + this.greenwidth);
