@@ -50,8 +50,11 @@ function Syrym(game, isPlayer) {
     this.syrym_jump_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 2460, 2000, 410, 400, 0.1, 2, false, true, 0);
 	
 	   //victory
-    this.syrym_victory_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1230, 410, 400, 0.1, 9, true, false, 0);
-    this.syrym_victory_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.1, 9, true, false, 0);
+    this.syrym_victory_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1230, 410, 400, 0.2, 9, false, false, 0);
+    this.syrym_victory_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.2, 9, false, false, 0);
+     //victory2
+    this.syrym_victory2_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 2050, 1230, 410, 400, 0.2, 4, true, false, 0);
+    this.syrym_victory2_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.2, 4, true, false, 0);
   
      //lost loop 1
     this.syrym_lost_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 0, 410, 400, 0.1, 14, false, false, 0);
@@ -637,14 +640,14 @@ Syrym.prototype.draw = function (ctx) {
     } else if (this.won) {
         if (this.isRight) {
             this.syrym_victory_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
-      //      if (this.alex_victory_Animation.isDone()) {
-        //        this.alex_victory_Animation2.drawFrame(this.game, ctx, this.x, this.y - 150)
-        //    }
+           if (this.syrym_victory_right_Animation.isDone()) {
+                syrym_victory2_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
         } else {
             this.syrym_victory_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
-      //      if (this.alex_victory_leftAnimation.isDone()) {
-        //        this.alex_victory_leftAnimation2.drawFrame(this.game, ctx, this.x, this.y - 150)
-       //     }
+            if (this.syrym_victory_left_Animation.isDone()) {
+                syrym_victory2_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
+            }
         }//<------------------------------------------------------------------------------------------added loss/win animation here
     } else if (this.weak_punch) {
         if (this.isRight) {
