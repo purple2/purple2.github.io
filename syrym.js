@@ -50,8 +50,13 @@ function Syrym(game, isPlayer) {
     this.syrym_jump_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 2460, 2000, 410, 400, 0.1, 2, false, true, 0);
 	
 	   //victory
-    this.syrym_victory_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1230, 410, 400, 0.1, 9, false, false, 0);
- 
+    this.syrym_victory_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1230, 410, 400, 0.1, 9, true, false, 0);
+    this.syrym_victory_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.1, 9, true, false, 0);
+  
+     //lost loop 1
+    this.syrym_lost_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 0, 410, 400, 0.1, 14, false, false, 0);
+    this.syrym_lost_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 0, 0, 410, 400, 0.1, 14, false, true, 0);
+  
     //new boolean values added here
     this.weak_punch = false;
     this.weak_kick = false;
@@ -330,6 +335,123 @@ Syrym.prototype.update = function () {
             this.strong_kick = false;
 
         }
+            if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
+        if (this.isRight) {
+            if (this.syrym_lost_right_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
+
+            }
+        } else {
+            if (this.syrym_lost_left_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+                this.gotHit = false;
+            }
+        }
+    }
+    if (this.won) {
+        if (this.isRight) {
+            if (this.syrym_victory_right_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.gotHit = false;
+                this.strong_kick = false;
+
+            }
+        } else {
+            if (this.syrym_victory_left_Animation.isDone()) {
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.gotHit = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }//----------------------------------------------------------------------------------ended if for win/lost here
+
+    if (this.taunt) {//----------------------------------------------------------------------------------added taunt anim here
+        if (this.isRight) {
+            if (this.syrym_taunt_rightAnimation.isDone()) {
+                this.syrym_taunt_rightAnimation.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = true;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+
+            }
+        } else {
+            if (this.syrym_taunt_leftAnimation.isDone()) {
+                this.syrym_taunt_leftAnimation.elapsedTime = 0;
+                this.taunt = false;
+                this.jumping = false;
+                this.standing = false;
+                this.current_action = false;
+                this.leftwalk = false;
+                this.rightwalk = false;
+                this.standing = false;
+                this.standingLeft = false;
+                this.sittingRight = false;
+                this.sittingLeft = false;
+                this.weak_punch = false;
+                this.weak_kick = false;
+                this.strong_punch = false;
+                this.strong_kick = false;
+            }
+        }
+    }//----------------------------------------------------------------------------------added taunt anim here
 
         if (this.weak_punch) {
             if (this.isRight) {
