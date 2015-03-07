@@ -270,6 +270,9 @@ Vlad.prototype.update = function () {
         if (this.isRight) {
             if (this.vlad_jumpAnimation.isDone()) {
                 this.vlad_jumpAnimation.elapsedTime = 0;
+                if(this.jumping){
+					this.game.moveSeffect.playFall();
+				}
                 this.jumping = false;
                 this.standing = true;
                 this.current_action = false;
@@ -278,6 +281,9 @@ Vlad.prototype.update = function () {
         } else {
             if (this.vlad_leftjumpAnimation.isDone()) {
                 this.vlad_leftjumpAnimation.elapsedTime = 0;
+                if(this.jumping){
+				    this.game.moveSeffect.playFall();
+				}
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
