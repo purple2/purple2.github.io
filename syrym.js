@@ -622,6 +622,30 @@ Syrym.prototype.draw = function (ctx) {
         this.syrym_blockLeftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.sittingRight) {
         this.syrym_blockRightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+    } else if (this.lost) {//<--------------------------------------------------------------------------added loss/win animation here
+        if (this.isRight) {
+            this.syrym_lost_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+         //   if (this.syrym_lost_right_Animation.isDone()) {
+          //      this.alex_lost_Animation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+         //   }
+        } else{
+            this.syrym_lost_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+        //    if (this.alex_lost_leftAnimation.isDone()) {
+         //       this.alex_lost_leftAnimation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+         //   }
+        }
+    } else if (this.won) {
+        if (this.isRight) {
+            this.syrym_victory_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+      //      if (this.alex_victory_Animation.isDone()) {
+        //        this.alex_victory_Animation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+        //    }
+        } else {
+            this.syrym_victory_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
+      //      if (this.alex_victory_leftAnimation.isDone()) {
+        //        this.alex_victory_leftAnimation2.drawFrame(this.game, ctx, this.x, this.y - 150)
+       //     }
+        }//<------------------------------------------------------------------------------------------added loss/win animation here
     } else if (this.weak_punch) {
         if (this.isRight) {
             this.syrym_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
