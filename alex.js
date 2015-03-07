@@ -583,7 +583,7 @@ Alex.prototype.update = function () {
                 }
             } else {
                 if (this.alex_strong_kick_leftAnimation.currentFrame() === 3) {
-                    this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);// right weak punch hitbox set****
+                    this.myboxes.setAttackBox(this.x, this.y - 30, 125, 45);// right weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
