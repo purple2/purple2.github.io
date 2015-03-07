@@ -70,6 +70,9 @@ function GameEngine() {
     //Fighters
     this._NUM_FIGHTERS = 4;
     this.fightersUsed = [];
+    this.startMusic = new Music(this,"./sounds/rjones1.mp3");
+	this.charSelectMusic = new Music(this,"./sounds/charSelectSound.wav");
+	this.moveSeffect = new SoundEffect(this);
 }
 
 GameEngine.prototype.init = function (ctx) {
