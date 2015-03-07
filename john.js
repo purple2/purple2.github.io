@@ -283,6 +283,9 @@ John.prototype.update = function () {
         if (this.isRight) {
             if (this.jumpRight.isDone()) {
                     this.jumpRight.elapsedTime = 0;
+                    if(this.jumping){
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
                     this.standing = true;
                     this.current_action = false;
@@ -291,6 +294,9 @@ John.prototype.update = function () {
             } else {
                 if (this.jumpLeft.isDone()) {
                     this.jumpLeft.elapsedTime = 0;
+                    if(this.jumping){
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
                     this.standingLeft = true;
                     this.current_action = false;
