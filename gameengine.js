@@ -103,16 +103,11 @@ GameEngine.prototype.start = function () {
 
 function YouLose(game, background) {
     this.active_background = background;
-    this.x = 0;
-    this.y = 0;
-    this.startX = 0;
-    this.startY = 0;
     this.game = game;
     this.ctx = game.ctx;
 }
 
 YouLose.prototype.draw = function () {
-    //console.log(this.active_background);
     this.ctx.drawImage(this.active_background,
                   0, 0,  // source from sheet
                   700, 300,
@@ -123,6 +118,50 @@ YouLose.prototype.draw = function () {
 
 YouLose.prototype.update = function () {
     //do nothing
+}
+
+function Message(game, message) {
+    this.my_message = message;
+    this.game = game;
+    this.ctx = game.ctx;
+}
+
+Message.prototype.draw = function () {
+    this.ctx.fillStyle = '#df1212';
+    this.ctx.strokeStyle = 'black';
+    this.ctx.lineWidth = 3;
+
+    this.ctx.font = 'italic bold 60px sans-serif';
+    this.ctx.fillText(this.my_message, 500, 275);
+    this.ctx.strokeText(this.my_message, 500, 275);
+
+    this.ctx.fill();
+    this.ctx.stroke();
+}
+
+Message.prototype.update = function () {
+    //do nothing
+}
+
+function X(game, background, x, y) {
+    this.active_background = background;
+    this.startX = x;
+    this.startY = y;
+    this.game = game;
+    this.ctx = game.ctx;
+}
+
+X.prototype.draw = function () {
+        this.ctx.drawImage(this.active_background,
+                      0, 0,  // source from sheet
+                      25, 25,
+                      this.startX, this.startY,
+                      25,
+                      25);
+}
+
+X.prototype.update = function () {
+   //do nothing
 }
 
 // ---------------------------------
@@ -219,7 +258,6 @@ GameEngine.prototype.updateWinner = function (character) {
 
 GameEngine.prototype.updateFight = function () {
     console.log("Updating Fight...");
-
     if (!this.paused) {
         if (this.playerWins > 1) {
             //console.log("YOU WON THIS MATCH");
@@ -271,6 +309,8 @@ GameEngine.prototype.loadNextFight = function () {
 
 GameEngine.prototype.getCharacter = function (id, isPlayer) {
     console.log("Getting Character...");
+    
+
     var fighter = null;
 
     switch (id) {
@@ -499,7 +539,17 @@ GameEngine.prototype.draw = function () {
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
-
+    if (this.opponentWins >=1) {
+        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"),202, 108));
+        if (this.opponentWins === 2) {
+            this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 227, 108));
+        }
+    } else if (this.playerWins >= 1) {
+        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350-202, 108));
+        if (this.playerWins === 2) {
+            this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350-227, 108));
+        }
+    }
     if (this.paused) {
         if (this.pauseCycles > 0) {
             this.pauseCycles--;
@@ -509,6 +559,11 @@ GameEngine.prototype.draw = function () {
                            700, 300,
                            325, 50,
                            700, 200);
+                if (this.opponentWins === 1) {
+                    this.addEntity(new Message(this, "Round 1 of 2"));
+                } else {
+                    this.addEntity(new Message(this, "Round 2 of 2"));
+                }
                 this.Fighter.lost = true;
                 this.Opponent.win = true;
             } else if (this.winner === true) {
@@ -517,6 +572,11 @@ GameEngine.prototype.draw = function () {
                        700, 300,
                        325, 50,
                        700, 200);
+                if (this.playerWins === 1) {
+                    this.addEntity(new Message(this, "Round 1 of 2"));
+                } else {
+                    this.addEntity(new Message(this, "Round 2 of 2"));
+                }
                 this.Fighter.won = true;
                 this.Opponent.lost = true;
             }
