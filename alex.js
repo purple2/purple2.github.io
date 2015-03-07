@@ -310,6 +310,9 @@ Alex.prototype.update = function () {
         if (this.isRight) {
             if (this.alex_jumpAnimation.isDone()) {
                     this.alex_jumpAnimation.elapsedTime = 0;
+                    if(this.jumping){
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
                     this.standing = true;
                     this.current_action = false;
@@ -318,6 +321,9 @@ Alex.prototype.update = function () {
             } else {
                 if (this.alex_leftjumpAnimation.isDone()) {
                     this.alex_leftjumpAnimation.elapsedTime = 0;
+                    if(this.jumping){
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
                     this.standing = true;
                 }
