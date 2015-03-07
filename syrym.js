@@ -280,6 +280,9 @@ Syrym.prototype.update = function () {
             if (this.isRight) {
                 if (this.syrym_rightjumpAnimation.isDone()) {
                     this.syrym_rightjumpAnimation.elapsedTime = 0;
+                    if(this.jumping){
+			this.game.moveSeffect.playFall();
+		    }
                     this.jumping = false;
                     this.standing = true;
                     this.current_action = false;
@@ -288,6 +291,9 @@ Syrym.prototype.update = function () {
             } else {
                 if (this.syrym_leftjumpAnimation.isDone()) {
                     this.syrym_leftjumpAnimation.elapsedTime = 0;
+                    if(this.jumping){
+			this.game.moveSeffect.playFall();
+		    }
                     this.jumping = false;
                 }
                 jumpDistance = this.syrym_leftjumpAnimation.elapsedTime / this.syrym_rightjumpAnimation.totalTime;
