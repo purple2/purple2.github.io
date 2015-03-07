@@ -4,6 +4,7 @@ function Hitbox(game, id) {
     this.hitbox = { x: 0, y: 0, width: 0, height: 0 };
     this.attackbox = { x: 0, y: 0, width: 0, height: 0 };
     this.attack = false;
+    this.attackSeffect = new SoundEffect(game);
 }
 
 Hitbox.prototype.setAttack = function () {
@@ -105,6 +106,7 @@ Hitbox.prototype.attackenemy = function () {
             
         }
     }
+    this.attackSeffect.playSeffect();
 }
 
 
