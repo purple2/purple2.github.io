@@ -71,8 +71,8 @@ function GameEngine() {
     this._NUM_FIGHTERS = 4;
     this.fightersUsed = [];
     this.startMusic = new Music(this,"./sounds/rjones1.mp3");
-	this.charSelectMusic = new Music(this,"./sounds/charSelectSound.wav");
-	this.moveSeffect = new SoundEffect(this);
+    this.charSelectMusic = new Music(this,"./sounds/charSelectSound.wav");
+    this.moveSeffect = new SoundEffect(this);
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -90,11 +90,14 @@ GameEngine.prototype.start = function () {
     var that = this;
     (function gameLoop() {
         if (that.inStartup) {
+            that.startMusic.play();	
             that.displayStartup();
         }else if (that.inMenu) {
+            that.startMusic.pause();
+            that.charSelectMusic.play();
             that.getSelections();
         } else if (that.inFight) {
-
+            that.charSelectMusic.pause();
             //console.log("In gameLoop inFight");
             that.loop();
             requestAnimFrame(gameLoop, that.ctx.canvas);
