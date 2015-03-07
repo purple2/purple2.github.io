@@ -68,7 +68,6 @@ Hitbox.prototype.attackenemy = function () {
                 damage = 0;
             } else {
                 ent.gotHit = true;
-                new Audio("./sounds/punch.mp3").play();
             }
             
             ent.bar.decreaseHealth(damage);
@@ -98,7 +97,6 @@ Hitbox.prototype.attackenemy = function () {
             damage = 0;
             } else {
                 ent2.gotHit = true;
-                new Audio("./sounds/punch.mp3").play();
             }
 
             console.log("Player hit lost " + damage + "health");
