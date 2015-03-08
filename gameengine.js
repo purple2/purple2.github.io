@@ -70,8 +70,10 @@ function GameEngine() {
     //Fighters
     this._NUM_FIGHTERS = 4;
     this.fightersUsed = [];
-    this.startMusic = new Music(this,"./sounds/rjones1.mp3");
-    this.charSelectMusic = new Music(this,"./sounds/charSelectSound.wav");
+    this.startMusic = new Music(this,"./sounds/rjones1.mp3", true, .05);
+    this.fight = new Music(this, "./sounds/fight.mp3", false, 1);
+    this.lost = new Music(this, "./sounds/lost.mp3", false, 1);
+    this.charSelectMusic = new Music(this, "./sounds/charSelectSound.wav", true, .05);
     this.moveSeffect = new SoundEffect(this);
 }
 
@@ -250,6 +252,7 @@ GameEngine.prototype.updateWinner = function (character) {
         this.opponentWins++;
         this.paused = true;
         this.loser = true;
+        this.lost.play();
        
         console.log("Opponents Wins = " + this.opponentWins);
     } else {
@@ -377,6 +380,7 @@ GameEngine.prototype.resetFighters = function (selection, opponentIndex) {
     this.Opponent = this.getCharacter(opponentIndex, false);
     this.Opponent.loadEnergyBar(new Bar(this, this.Opponent));
 
+    this.fight.play();
     this.loadFighters();
     
     //console.log("Done Resetting Characters");
