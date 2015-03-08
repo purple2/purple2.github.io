@@ -43,6 +43,9 @@ function Vlad(game, isPlayer) {
 
     this.vlad_Left_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite_reverse.png"), 0, (2304 / 5) * 11, (1536 / 5) + 2, 2304 / 5, .1, 7, false, true, 32);
 
+    //Vlad's turf
+    this.turf = "./img/union_station.png";
+
     //new boolean values added here
     this.weak_punch = false;
     this.weak_kick = false;
