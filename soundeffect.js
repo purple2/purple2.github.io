@@ -13,11 +13,14 @@ function SoundEffect(game) {
 	this.fistSwingSound = new Audio("./sounds/fist_swing_07.wav");
 	this.footSwingSound = new Audio("./sounds/foot_swing_06.wav");
 	
+	this.finishhim = new Audio("./sounds/finishhim.mp3");
+	
 	this.punchWSound.volume = 0.2;
 	this.punchSSound.volume = 0.2;
 	this.kickWSound.volume = 0.2;
 	this.kickSSound.volume = 0.2;
 	this.blockSound.volume = 0.2;
+	this.finishhim.volume = 0.9;
 	this.fallSound.volume = 0.02;
 	this.fistSwingSound.volume = 0.1;
 	this.footSwingSound.volume = 0.1;
@@ -27,6 +30,9 @@ function SoundEffect(game) {
 SoundEffect.prototype.playSeffect = function(){
     var ent = this.game.entities[1];
     var ent2 = this.game.entities[2];
+      if (ent.bar.greenwidth < 10|| ent2.bar.greenwidth <10) {
+        this.finishhim.play();
+    }
 	if(ent.gotHit || ent2.gotHit){
 		if (ent.weak_punch || ent2.weak_punch) {// w p
 			this.punchWSound.play();
