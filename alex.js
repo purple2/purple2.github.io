@@ -63,7 +63,10 @@ function Alex(game, isPlayer) {
     this.alex_taunt_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 0, 2250 + 10 - 325, 251.5, 325, .2, 4, false, false, 0);
     this.alex_taunt_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 2250 + 10 - 325, 251.5, 325, .2, 4, false, true, 0);
     //----------------------------------------------------------------------------------ended taunt anim here
-
+    
+    //Alex's turf
+    this.turf = "./img/narrows.png";
+    
     //new boolean values added here
     this.weak_punch = false;
     this.taunt = false;//----------------------------------------------------------------------------------set taunt to false here
