@@ -60,6 +60,9 @@ function John(game, isPlayer) {
     this.victoryRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 955, 3850, 135, 380, 5, 1, false, false, 0);
     this.victoryLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440+955, 3850, 135, 380, 5, 1, false, true, 0);
     
+    //John's home turf
+    this.turf = "./img/staircase.png";
+    
     //new boolean values added here
     this.weak_punch = false;
     this.weak_kick = false;
