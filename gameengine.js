@@ -138,8 +138,8 @@ Message.prototype.draw = function () {
     this.ctx.lineWidth = 3;
 
     this.ctx.font = 'italic bold 60px sans-serif';
-    this.ctx.fillText(this.my_message, 500, 275);
-    this.ctx.strokeText(this.my_message, 500, 275);
+    this.ctx.fillText(this.my_message, 575, 275);
+    this.ctx.strokeText(this.my_message, 575, 275);
 
     this.ctx.fill();
     this.ctx.stroke();
@@ -545,15 +545,25 @@ GameEngine.prototype.draw = function () {
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
-    if (this.opponentWins >=1) {
+     if (this.opponentWins >=1) {
         this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"),202, 108));
         if (this.opponentWins === 2) {
             this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 227, 108));
         }
     } else if (this.playerWins >= 1) {
-        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350-202, 108));
+        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350 - 202, 108));
         if (this.playerWins === 2) {
             this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350-227, 108));
+        }
+        
+    }
+    if (this.playerWins >= 1 && this.opponentWins >= 1) {
+        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350 - 202, 108));
+        this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 202, 108));
+        if (this.playerWins === 2) {
+            this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 1350 - 227, 108));
+        } else if (this.opponentWins === 2) {
+            this.addEntity(new X(this, ASSET_MANAGER.getAsset("./img/x.png"), 227, 108));
         }
     }
     if (this.paused) {
@@ -565,10 +575,12 @@ GameEngine.prototype.draw = function () {
                            700, 300,
                            325, 50,
                            700, 200);
-                if (this.opponentWins === 1) {
-                    this.addEntity(new Message(this, "Round 1 of 2"));
-                } else {
-                    this.addEntity(new Message(this, "Round 2 of 2"));
+                if (this.opponentWins === 1 && this.playerWins === 0) {
+                    this.addEntity(new Message(this, "Round 1"));
+                } else if (this.playerWins === 1 && this.opponentWins === 1 || this.playerWins === 0 && this.opponentWins === 2) {
+                    this.addEntity(new Message(this, "Round 2"));
+                } else if (this.opponentWins === 2 && this.playerWins === 1) {
+                    this.addEntity(new Message(this, "Round 3"));
                 }
                 this.Fighter.lost = true;
                 this.Opponent.win = true;
@@ -578,10 +590,12 @@ GameEngine.prototype.draw = function () {
                        700, 300,
                        325, 50,
                        700, 200);
-                if (this.playerWins === 1) {
-                    this.addEntity(new Message(this, "Round 1 of 2"));
-                } else {
-                    this.addEntity(new Message(this, "Round 2 of 2"));
+               if (this.playerWins === 1 && this.opponentWins === 0) {
+                    this.addEntity(new Message(this, "Round 1"));
+                } else if (this.playerWins === 1 && this.opponentWins === 1 || this.playerWins === 2 && this.opponentWins === 0) {
+                    this.addEntity(new Message(this, "Round 2"));
+                } else if (this.playerWins === 2 && this.opponentWins === 1) {
+                    this.addEntity(new Message(this, "Round 3"));
                 }
                 this.Fighter.won = true;
                 this.Opponent.lost = true;
