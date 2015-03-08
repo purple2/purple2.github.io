@@ -59,7 +59,10 @@ function Syrym(game, isPlayer) {
      //lost loop 1
     this.syrym_lost_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 0, 410, 400, 0.1, 14, false, false, 0);
     this.syrym_lost_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 0, 0, 410, 400, 0.1, 14, false, true, 0);
-  
+
+    //Syrym's turf
+    this.turf = "./img/ghettoalley.png";
+
     //new boolean values added here
     this.weak_punch = false;
     this.weak_kick = false;
