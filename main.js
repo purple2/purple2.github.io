@@ -22,6 +22,10 @@ ASSET_MANAGER.queueDownload("./img/syrym1reversed.png");
 ASSET_MANAGER.queueDownload("./img/startup.png");
 ASSET_MANAGER.queueDownload("./img/char_select.png");
 ASSET_MANAGER.queueDownload("./img/staircase.png");
+ASSET_MANAGER.queueDownload("./img/union_station.png");
+ASSET_MANAGER.queueDownload("./img/ghettoalley.png");
+ASSET_MANAGER.queueDownload("./img/narrows.png");
+
 
 ASSET_MANAGER.queueDownload("./img/youwin.png")
 ASSET_MANAGER.queueDownload("./img/youlose.png")
