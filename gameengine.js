@@ -347,7 +347,7 @@ GameEngine.prototype.loadFighters = function () {
 
     //Add Components of fight.
     this.clearEntities();
-    this.addEntity(new Background(this, ASSET_MANAGER.getAsset("./img/staircase.png")));
+    this.addEntity(new Background(this, ASSET_MANAGER.getAsset(this.Opponent.turf)));
     this.addEntity(this.Fighter);
     this.addEntity(this.Opponent);
     this.addEntity(this.Fighter.bar);
