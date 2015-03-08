@@ -599,11 +599,11 @@ Syrym.prototype.draw = function (ctx) {
   //  ctx.fillStyle = "DarkGreen";
 //    ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
 //    Entity.prototype.draw.call(this);
-    if (this.current_action) {
-        ctx.fillStyle = "Red";
-        ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
-        Entity.prototype.draw.call(this);
-    }
+    //if (this.current_action) {
+        //ctx.fillStyle = "Red";
+       // ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
+     //   Entity.prototype.draw.call(this);
+    //}
 
     if (this.jumping) {
         if (this.isRight) {
@@ -688,3 +688,4 @@ Syrym.prototype.draw = function (ctx) {
 
     Entity.prototype.draw.call(this);
 }
+	
