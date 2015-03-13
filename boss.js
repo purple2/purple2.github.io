@@ -1,4 +1,4 @@
-﻿function Boss(game, isPlayer) {
+function Boss(game, isPlayer) {
     //Boss Sprite
     this.boss_standingAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 0, 360, 450, .2, 1, true, false, 0);
     this.boss_rightwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 65, 405,298, 450, 0.1, 17, true, false, 0);
@@ -27,10 +27,10 @@
     this.boss_strong_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 2150, 1730, 430, 450, .13, 5, false, true, 0);
     //strong kick
     this.boss_strong_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 3090, 415, 450, .13, 3, false, false, 0);
-    this.boss_strong_kick_rightAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 1245, 3090, 500, 450, .2, 2, false, false, 0);
+    this.boss_strong_kick_rightAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 1245, 3090, 500, 450, .13, 2, false, false, 0);
 
     this.boss_strong_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-1200, 3090, 415, 450, .13, 3, false, true, 0);
-    this.boss_strong_kick_leftAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1200 - 1030, 3090, 500, 450, .2, 2, false, true, 0);
+    this.boss_strong_kick_leftAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1200 - 1050, 3090, 500, 450, .13, 2, false, true, 0);
 
 
     this.boss_Right_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 1285, 360, 450, 1, 1, false, false, 0);
@@ -65,7 +65,7 @@
     //Entity.call(this, game, 0, 400);
     //this.weakpunchR_hitbox = { x: this.x + 180, y: this.y -120, width: 125, height: 45 }
     this.myboxes = new Hitbox(game, 1);
-    this.myboxes.setHitbox(this.x + 70, this.y - 140, 125, 300);
+    this.myboxes.setHitbox(this.x + 140, this.y - 230, 125, 300);
     this.bar;
 }
 
@@ -95,9 +95,9 @@ Boss.prototype.update = function () {
 
     //this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);
     if (this.isRight) {
-        this.myboxes.setHitbox(this.x + 70, this.y - 140, 125, 300);
+        this.myboxes.setHitbox(this.x + 140, this.y - 230, 125, 300);
     } if (!this.isRight) {
-        this.myboxes.setHitbox(this.x + 70, this.y - 140, 125, 300);
+        this.myboxes.setHitbox(this.x-10, this.y - 230, 125, 300);
     }
 
     if (this.controlled) {
@@ -354,7 +354,7 @@ Boss.prototype.update = function () {
     if (this.weak_punch) {
         if (this.isRight) {
             if (this.boss_weak_punch_rightAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);// right weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x + 300, this.y - 130, 125, 45);// right weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -367,7 +367,7 @@ Boss.prototype.update = function () {
             }
         } else {
             if (this.boss_weak_punch_leftAnimation.currentFrame() === 3) {//new code from here 3 is the frame it checks for
-                this.myboxes.setAttackBox(this.x - 25, this.y - 120, 125, 45);// Left weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x-100, this.y - 130, 125, 45);// Left weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -384,7 +384,7 @@ Boss.prototype.update = function () {
     if (this.strong_punch) {
         if (this.isRight) {
             if (this.boss_strong_punch_rightAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);// right weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x + 180, this.y - 150, 125, 45);// right weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -397,7 +397,7 @@ Boss.prototype.update = function () {
             }
         } else {
             if (this.boss_strong_punch_leftAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x - 22, this.y - 120, 125, 45);// right weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x - 22, this.y - 150, 125, 45);// right weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -413,7 +413,7 @@ Boss.prototype.update = function () {
     if (this.weak_kick) {
         if (this.isRight) {
             if (this.boss_weak_kick_rightAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x + 175, this.y, 125, 65);// right weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x + 165, this.y - 100, 125, 65);// right weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -426,7 +426,7 @@ Boss.prototype.update = function () {
             }
         } else {
             if (this.boss_weak_kick_leftAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x - 30, this.y, 115, 65);// right weak kick hitbox set****
+                this.myboxes.setAttackBox(this.x - 30, this.y-100, 115, 65);// right weak kick hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
@@ -442,26 +442,28 @@ Boss.prototype.update = function () {
     if (this.strong_kick) {
         if (this.isRight) {
             if (this.boss_strong_kick_rightAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x + 180, this.y, 125, 55);// right strong kick hitbox set****
+                this.myboxes.setAttackBox(this.x + 275, this.y-200, 200, 55);// right strong kick hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
             }
-            if (this.boss_strong_kick_rightAnimation.isDone()) {
+            if (this.boss_strong_kick_rightAnimation_final.isDone()) {
                 this.boss_strong_kick_rightAnimation.elapsedTime = 0;
+                this.boss_strong_kick_rightAnimation_final.elapsedTime = 0;
                 this.strong_kick = false;
                 this.standing = true;
                 this.current_action = false;
             }
         } else {
             if (this.boss_strong_kick_leftAnimation.currentFrame() === 3) {
-                this.myboxes.setAttackBox(this.x - 40, this.y, 125, 55);// right weak punch hitbox set****
+                this.myboxes.setAttackBox(this.x - 100, this.y - 200, 125, 55);// right weak punch hitbox set****
                 this.myboxes.setAttack();
                 this.myboxes.attackenemy();
                 this.myboxes.unsetAttack();
             }
-            if (this.boss_strong_kick_leftAnimation.isDone()) {
+            if (this.boss_strong_kick_leftAnimation_final.isDone()) {
                 this.boss_strong_kick_leftAnimation.elapsedTime = 0;
+                this.boss_strong_kick_leftAnimation_final.elapsedTime = 0;
                 this.strong_kick = false;
                 this.standing = false;
                 this.current_action = false;
@@ -474,6 +476,7 @@ Boss.prototype.update = function () {
     if (this.controlled && this.rightwalk && this.x <= 1050) {
         this.x += 3;
 
+
     } else if (this.controlled && this.leftwalk && this.x >= 50) {
         this.x -= 3;
 
@@ -483,14 +486,14 @@ Boss.prototype.update = function () {
 
 Boss.prototype.draw = function (ctx) {
     //commented this part out since is was used for setting hitboxes testing
-    //ctx.fillStyle = "DarkGreen";
-    //ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
-    //Entity.prototype.draw.call(this);
-    //if (this.current_action) {
-    //    ctx.fillStyle = "Red";
-    //    ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
-    //    Entity.prototype.draw.call(this);
-    //}  
+    ctx.fillStyle = "DarkGreen";
+    ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
+    Entity.prototype.draw.call(this);
+    if (this.current_action) {
+        ctx.fillStyle = "Red";
+        ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
+        Entity.prototype.draw.call(this);
+    }  
     if (this.jumping) {
         if (this.isRight) {
             this.boss_jumpAnimation.drawFrame(this.game, ctx, this.x, this.y - 340);
