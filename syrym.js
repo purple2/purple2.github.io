@@ -256,13 +256,13 @@ Syrym.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            console.log("Hit right");
+            //console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.syrym_low_punched_rightAnimation.isDone()) {
-                console.log("end of right hit animation");
+                //console.log("end of right hit animation");
                 this.syrym_low_punched_rightAnimation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -270,13 +270,13 @@ Syrym.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            console.log("hit left");
+            //console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.syrym_low_punched_leftAnimation.isDone()) {
-                console.log("end of hit animation Left");
+                //console.log("end of hit animation Left");
                 this.syrym_low_punched_leftAnimation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -657,7 +657,7 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_weak_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.weak_kick) {
@@ -665,7 +665,7 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -673,14 +673,14 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_strong_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_strong_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_kick) {
         if (this.isRight) {
             this.syrym_strong_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_strong_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.syrym_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 150);

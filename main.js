@@ -19,13 +19,16 @@ ASSET_MANAGER.queueDownload("./img/Vlad_Sprite_reverse.png");
 ASSET_MANAGER.queueDownload("./img/syrym1.png");
 ASSET_MANAGER.queueDownload("./img/syrym1reversed.png");
 
+ASSET_MANAGER.queueDownload("./img/boss.png");
+ASSET_MANAGER.queueDownload("./img/boss_left.png");
+
 ASSET_MANAGER.queueDownload("./img/startup.png");
 ASSET_MANAGER.queueDownload("./img/char_select.png");
 ASSET_MANAGER.queueDownload("./img/staircase.png");
 ASSET_MANAGER.queueDownload("./img/union_station.png");
 ASSET_MANAGER.queueDownload("./img/ghettoalley.png");
 ASSET_MANAGER.queueDownload("./img/narrows.png");
-
+ASSET_MANAGER.queueDownload("./img/boss_background.jpg")
 
 ASSET_MANAGER.queueDownload("./img/youwin.png")
 ASSET_MANAGER.queueDownload("./img/youlose.png")
@@ -37,7 +40,7 @@ ASSET_MANAGER.queueDownload("./img/numbers.png");
 ASSET_MANAGER.queueDownload("./img/x.png");
 
 ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da sheild");
+    //console.log("starting up da sheild");
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
     ctx.canvas.width = window.innerWidth;

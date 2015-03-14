@@ -274,13 +274,13 @@ Alex.prototype.update = function () {
 
         
         if (this.isRight) {
-            console.log("Hit right");
+            //console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.alex_high_hit_rightAnimation.isDone()) {
-                console.log("end of right hit animation");
+                //console.log("end of right hit animation");
                 this.alex_high_hit_rightAnimation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -288,13 +288,13 @@ Alex.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            console.log("hit left");
+            //console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.alex_high_hit_leftAnimation.isDone()) {
-                console.log("end of hit animation Left");
+                //console.log("end of hit animation Left");
                 this.alex_high_hit_leftAnimation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -677,7 +677,7 @@ Alex.prototype.draw = function (ctx) {
             this.alex_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_weak_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.taunt) {//----------------------------------------------------------------------------------added taunt anim here
@@ -685,7 +685,7 @@ Alex.prototype.draw = function (ctx) {
             this.alex_taunt_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_taunt_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }//----------------------------------------------------------------------------------added taunt anim here
         ////////////////////////////////////////////Added if statement^^
     } else if (this.weak_kick) {
@@ -693,7 +693,7 @@ Alex.prototype.draw = function (ctx) {
             this.alex_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -701,14 +701,14 @@ Alex.prototype.draw = function (ctx) {
             this.alex_strong_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_strong_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_kick) {
         if (this.isRight) {
             this.alex_strong_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.alex_strong_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.alex_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 150);

@@ -53,12 +53,12 @@ function John(game, isPlayer) {
     this.defeatLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 2400, 3570, 120, 280, 5, 1, false, true, 0);
 
     //Victory
-    this.victoryRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 10, 3850, 135, 380, .07, 8, false, false, 0);
-    this.victoryLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440, 3850, 135, 380, .07, 8, false, true, 0);
+    this.victoryRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 10, 3850, 135, 330, .07, 8, false, false, 0);
+    this.victoryLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440, 3850, 135, 330, .07, 8, false, true, 0);
 
     //Victory still shot
-    this.victoryRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 955, 3850, 135, 380, 5, 1, false, false, 0);
-    this.victoryLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440+955, 3850, 135, 380, 5, 1, false, true, 0);
+    this.victoryRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 955, 3850, 135, 330, 5, 1, false, false, 0);
+    this.victoryLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440+955, 3850, 135, 330, 5, 1, false, true, 0);
     
     //John's home turf
     this.turf = "./img/staircase.png";
@@ -251,13 +251,13 @@ John.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-           //console.log("Hit right");
+           ////console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.bdyRight.isDone()) {
-                //console.log("end of right hit animation");
+                ////console.log("end of right hit animation");
                 this.bdyRight.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -265,13 +265,13 @@ John.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            //console.log("hit left");
+            ////console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.bdyLeft.isDone()) {
-                //console.log("end of hit animation Left");
+                ////console.log("end of hit animation Left");
                 this.bdyLeft.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -662,7 +662,7 @@ John.prototype.draw = function (ctx) {
             this.wkPunchRight.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.wkPunchLeft.drawFrame(this.game, ctx, this.x - 90, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.weak_kick) {
@@ -670,7 +670,7 @@ John.prototype.draw = function (ctx) {
             this.wkKickRight.drawFrame(this.game, ctx, this.x - 40, this.y - 150);
         } else if (!this.isRight) {
             this.wkKickLeft.drawFrame(this.game, ctx, this.x - 70, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -678,14 +678,14 @@ John.prototype.draw = function (ctx) {
             this.strPunchRight.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.strPunchLeft.drawFrame(this.game, ctx, this.x - 80, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_kick) {
         if (this.isRight) {
             this.strKickRight.drawFrame(this.game, ctx, this.x - 80, this.y - 150);
         } else if (!this.isRight) {
             this.strKickLeft.drawFrame(this.game, ctx, this.x - 100, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.idleRight.drawFrame(this.game, ctx, this.x, this.y - 150);

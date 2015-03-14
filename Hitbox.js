@@ -20,7 +20,7 @@ Hitbox.prototype.setHitbox = function (x1, y1, width1, height1) {
 }
 
 Hitbox.prototype.setAttackBox = function (x1, y1, width1, height1) {
-    //console.log("set attack box ");
+    ////console.log("set attack box ");
     this.attackbox = { x: x1, y: y1, width: width1, height: height1 }
 }
 
@@ -45,8 +45,8 @@ Hitbox.prototype.attackenemy = function () {
     var ent2 = this.game.entities[2];
     var damage = 1;
     if (ent.myboxes.ID != this.ID) {
-        //console.log(this.attack);
-        //console.log("ent2 ID = this.ID check first ent");
+        ////console.log(this.attack);
+        ////console.log("ent2 ID = this.ID check first ent");
         
         if ((this.attack && !ent.gotHit &&
             (this.attackbox.x < ent.myboxes.hitbox.x + ent.myboxes.hitbox.width)) &&
@@ -71,11 +71,11 @@ Hitbox.prototype.attackenemy = function () {
             }
             
             ent.bar.decreaseHealth(damage);
-            console.log("Player hit lost " + damage + "health");
+            //console.log("Player hit lost " + damage + "health");
         }
     } else if (ent2.myboxes.ID != this.ID) {
-        //console.log(this.attackbox.x < ent2.myboxes.hitbox.x + ent2.myboxes.hitbox.width);
-        //console.log("ent.ID = this.ID check for second");
+        ////console.log(this.attackbox.x < ent2.myboxes.hitbox.x + ent2.myboxes.hitbox.width);
+        ////console.log("ent.ID = this.ID check for second");
 
         if ((this.attack && !ent2.gotHit &&
             (this.attackbox.x < ent2.myboxes.hitbox.x + ent2.myboxes.hitbox.width)) &&
@@ -99,7 +99,7 @@ Hitbox.prototype.attackenemy = function () {
                 ent2.gotHit = true;
             }
 
-            console.log("Player hit lost " + damage + "health");
+            //console.log("Player hit lost " + damage + "health");
             ent2.bar.decreaseHealth(damage);
             
         }
@@ -116,7 +116,7 @@ Hitbox.prototype.attackPlayer = function () {
                 this.hitbox.x + this.hitbox.width > ent.Hitbox.hitbox.x &&
                 this.hitbox.y < ent.Hitbox.hitbox.y + ent.Hitbox.hitbox.height &&
                 this.hitbox.height + this.hitbox.y > ent.Hitbox.hitbox.y) {
-                console.log("Players collide");
+                //console.log("Players collide");
                 return true;
             } else {
                 return false;

@@ -10,7 +10,7 @@ function Background(game, background) {
 }
 
 Background.prototype.draw = function () {
-    //console.log(this.active_background);
+    ////console.log(this.active_background);
     this.ctx.drawImage(this.active_background,
                   0, 0,  // source from sheet
                   1350, 600,

@@ -237,13 +237,13 @@ Vlad.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            //console.log("Hit right");
+            ////console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.vlad_Right_hit_animation.isDone()) {
-                //console.log("end of right hit animation");
+                ////console.log("end of right hit animation");
                 this.vlad_Right_hit_animation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -251,13 +251,13 @@ Vlad.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            //console.log("hit left");
+            ////console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.vlad_Left_hit_animation.isDone()) {
-                //console.log("end of hit animation Left");
+                ////console.log("end of hit animation Left");
                 this.vlad_Left_hit_animation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -520,7 +520,7 @@ Vlad.prototype.draw = function (ctx) {
         this.vlad_leftwalkAnim.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
     } else if (this.sittingLeft) {
         this.vlad_blockLeftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-        //console.log("block Left");
+        ////console.log("block Left");
     } else if (this.sittingRight) {
         this.vlad_blockRightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
     } else if (this.lost) {
@@ -549,7 +549,7 @@ Vlad.prototype.draw = function (ctx) {
             this.vlad_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
         } else if (!this.isRight) {
             this.vlad_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_punch) {
         if (this.isRight) {
@@ -562,7 +562,7 @@ Vlad.prototype.draw = function (ctx) {
             this.vlad_strong_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
         } else if (!this.isRight) {
             this.vlad_strong_kick_leftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {
         this.vlad_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 300);

@@ -1,44 +1,44 @@
 function Boss(game, isPlayer) {
     //Boss Sprite
-    this.boss_standingAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 0, 360, 450, .2, 1, true, false, 0);
-    this.boss_rightwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 65, 405,298, 450, 0.1, 17, true, false, 0);
-    this.boss_jumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 910, 1760, 360, 450, 1, 1, false, false, 0);
+    this.boss_standingAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 0, 360, 450, .03, 1, true, false, 0);
+    this.boss_rightwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 65, 405,298, 450, .1, 17, true, false, 0);
+    this.boss_jumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 910, 1760, 360, 450, .05, 1, false, false, 0);
 
-    this.boss_standingLeftAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-360, 0, 360, 450, .2, 1, true, true, 0);
-    this.boss_leftwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 50, 405, 298, 450, 0.1, 17, true, true, 0);
-    this.boss_leftjumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-910-360, 1760, 360, 450, 1, 1, false, true, 0);
+    this.boss_standingLeftAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-360, 0, 360, 450, .03, 1, true, true, 0);
+    this.boss_leftwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 50, 405, 298, 450, .1, 17, true, true, 0);
+    this.boss_leftjumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-910-360, 1760, 360, 450, .05, 1, false, true, 0);
 
     this.boss_blockRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 360, 0, 360, 450, 1, 1, true, true, 0);
     this.boss_blockLeftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 360*2, 0, 360, 450, 1, 1, true, true, 0);
 
     /////new controls animation weak punch
-    this.boss_weak_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 430*3, 840 + 450, 430, 450, .2, 3, false, true, 0);
+    this.boss_weak_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 430*3, 840 + 450, 430, 450, .1, 3, false, true, 0);
 
-    this.boss_weak_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 840+450, 430, 450, .2, 3, false, false, 0);
+    this.boss_weak_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 840+450, 430, 450, .1, 3, false, false, 0);
 
     ////// weak kick
-    this.boss_weak_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 2610, 400, 450, .13, 5, false, false, 0);
+    this.boss_weak_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 2610, 400, 450, .1, 5, false, false, 0);
 
-    this.boss_weak_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1960, 2610, 400, 450, .13, 5, false, true, 0);
+    this.boss_weak_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1960, 2610, 400, 450, .1, 5, false, true, 0);
 
     //strong punch
-    this.boss_strong_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 1730, 430, 450, .13, 5, false, false, 0);
+    this.boss_strong_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 1730, 430, 450, .1, 5, false, false, 0);
 
-    this.boss_strong_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 2150, 1730, 430, 450, .13, 5, false, true, 0);
+    this.boss_strong_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 2150, 1730, 430, 450, .1, 5, false, true, 0);
     //strong kick
-    this.boss_strong_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 3090, 415, 450, .13, 3, false, false, 0);
-    this.boss_strong_kick_rightAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 1245, 3090, 500, 450, .13, 2, false, false, 0);
+    this.boss_strong_kick_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 3090, 415, 450, .12, 3, false, false, 0);
+    this.boss_strong_kick_rightAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 1245, 3090, 500, 450, .12, 2, false, false, 0);
 
-    this.boss_strong_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-1200, 3090, 415, 450, .13, 3, false, true, 0);
-    this.boss_strong_kick_leftAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1200 - 1050, 3090, 500, 450, .13, 2, false, true, 0);
+    this.boss_strong_kick_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-1200, 3090, 415, 450, .12, 3, false, true, 0);
+    this.boss_strong_kick_leftAnimation_final = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183 - 1200 - 1050, 3090, 500, 450, .12, 2, false, true, 0);
 
 
-    this.boss_Right_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 1285, 360, 450, 1, 1, false, false, 0);
+    this.boss_Right_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 1285, 360, 450, .2, 1, false, false, 0);
 
-    this.boss_Left_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-360, 1285, 360, 450, 1, 1, false, true, 0);
+    this.boss_Left_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/boss_left.png"), 5183-360, 1285, 360, 450, .2, 1, false, true, 0);
 
     //Boss's turf
-    this.turf = "./img/union_station.png";
+    this.turf = "./img/boss_background.jpg";
 
     //new boolean values added here
     this.weak_punch = false;
@@ -231,13 +231,13 @@ Boss.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            //console.log("Hit right");
+            //////console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.boss_Right_hit_animation.isDone()) {
-                //console.log("end of right hit animation");
+                //////console.log("end of right hit animation");
                 this.boss_Right_hit_animation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -245,13 +245,13 @@ Boss.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            //console.log("hit left");
+            //////console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.boss_Left_hit_animation.isDone()) {
-                //console.log("end of hit animation Left");
+                //////console.log("end of hit animation Left");
                 this.boss_Left_hit_animation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -474,11 +474,11 @@ Boss.prototype.update = function () {
     }
 
     if (this.controlled && this.rightwalk && this.x <= 1050) {
-        this.x += 3;
+        this.x += 10;
 
 
     } else if (this.controlled && this.leftwalk && this.x >= 50) {
-        this.x -= 3;
+        this.x -= 10;
 
     }
     //}//where controlled is
@@ -513,7 +513,7 @@ Boss.prototype.draw = function (ctx) {
         this.boss_leftwalkAnim.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
     } else if (this.sittingLeft) {
         this.boss_blockLeftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-        //console.log("block Left");
+        //////console.log("block Left");
     } else if (this.sittingRight) {
         this.boss_blockRightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
     } else if (this.weak_punch) {
@@ -527,7 +527,7 @@ Boss.prototype.draw = function (ctx) {
             this.boss_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 300);
         } else if (!this.isRight) {
             this.boss_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_punch) {
         if (this.isRight) {
@@ -547,7 +547,7 @@ Boss.prototype.draw = function (ctx) {
                 this.boss_strong_kick_leftAnimation_final.drawFrame(this.game, ctx, this.x - 100, this.y - 300);
             }
             
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //////console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {
         this.boss_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 300);
