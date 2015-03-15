@@ -37,6 +37,8 @@ function GameEngine() {
     this.wheel = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    
+    this.shift = false;
 
     this.rightArrow = false;
     this.leftArrow = false;
@@ -455,6 +457,8 @@ GameEngine.prototype.startInput = function () {
             that.upArrowPressed = true;
         } else if (e.which === 40) {
             that.downArrow = true;
+        } else if (e.which === 16) { // shift
+            that.shift = true;
         }
             e.preventDefault();
 
@@ -480,6 +484,8 @@ GameEngine.prototype.startInput = function () {
             that.upArrowPressed = true;
         } else if (e.which === 40) {
             that.downArrow = true;
+        } else if (e.which === 16) { // shift
+            that.shift = true;
         }
         e.preventDefault();
     }, false);
@@ -506,7 +512,10 @@ GameEngine.prototype.startInput = function () {
             that.upArrowPressed = false;
         } else if (e.which === 40) {
             that.downArrow = false;
+        } else if (e.which === 16) { // shift
+            that.shift = false;
         }
+
 
     }, false);
     ////////console.log('Input started');
