@@ -50,20 +50,25 @@ function Syrym(game, isPlayer) {
     this.syrym_jump_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 2460, 2000, 410, 400, 0.1, 2, false, true, 0);
 	
 	   //victory
-    this.syrym_victory_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1230, 410, 400, 0.2, 9, false, false, 0);
-    this.syrym_victory_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.2, 9, false, false, 0);
+    this.syrym_victory_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 1200, 410, 400, 0.2, 9, false, false, 0);
+    this.syrym_victory_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1200, 410, 400, 0.2, 9, false, true, 0);
      //victory2
-    this.syrym_victory2_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 2050, 1230, 410, 400, 0.2, 4, true, false, 0);
-    this.syrym_victory2_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2050, 1230, 410, 400, 0.2, 4, true, false, 0);
+    this.syrym_victory2_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 1230, 1200, 410, 400, 1, 1, true, false, 0);
+    this.syrym_victory2_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"),2870, 1200, 410, 400, 1, 1, true, false, 0);
   
      //lost loop 1
     this.syrym_lost_right_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 0, 0, 410, 400, 0.1, 14, false, false, 0);
     this.syrym_lost_left_Animation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 0, 0, 410, 400, 0.1, 14, false, true, 0);
 
+    //slide punch
+    this.syrym_slide_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1.png"), 4100, 1200, 410, 400, 0.16, 1, true, false, 0);
+    this.syrym_slide_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/syrym1reversed.png"), 1230, 1200, 410, 400, 0.16, 1, true, true, 0);
+
     //Syrym's turf
     this.turf = "./img/ghettoalley.png";
 
     //new boolean values added here
+	this.slide_punch = false; //=====================slide punch
     this.weak_punch = false;
     this.weak_kick = false;
     this.strong_punch = false;
@@ -97,9 +102,8 @@ Syrym.prototype.updateOrientation = function () {
     this.ground = 355;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
-    this.offset = 62;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 62);
+        this.my_ai = new Ai_controller(this.game, 30);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }
@@ -114,28 +118,39 @@ Syrym.prototype.update = function () {
         this.controlled = !this.controlled;
     }
 
-    if (this.controlled) {//
-        if (this.game.space) {
+
+    if (this.controlled ) {//
+		if(this.game.rightArrow){
+			this.isRight = true;
+		} else if (this.game.leftArrow){
+			this.isRight = false;
+		}
+		
+		if (this.game.space) {
             this.jumping = true;
             this.strong_kick = false;
             this.strong_punch = false;
             this.weak_kick = false;
             this.weak_punch = false;
         }
-        if (this.game.rightArrow && this.current_action === false) {
+		
+		if (this.game.rightArrow && this.current_action === false) {
+			this.slide_punch = false;
             this.rightwalk = true;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = true;
+		//	 this.isRight = true;
         } else if (this.game.leftArrow && this.current_action === false) {
+			this.slide_punch = false;
             this.leftwalk = true;
             this.rightwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = false;
+		//	 this.isRight = false;
         } else if (this.game.downArrow && this.isRight && this.current_action === false) {
-            this.rightwalk = false;
+			this.slide_punch = false;
+			this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -143,7 +158,8 @@ Syrym.prototype.update = function () {
             this.sittingLeft = false;
             this.strong_kick = false;
         } else if (this.game.downArrow && !this.isRight && this.current_action === false) {
-            this.rightwalk = false;
+			this.slide_punch = false;           
+		   this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -152,7 +168,8 @@ Syrym.prototype.update = function () {
             this.strong_kick = false;
 
         } else if (this.game.theAPressed && this.current_action === false) {//A weak punch
-            this.rightwalk = false;
+			this.slide_punch = false;
+			this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -165,7 +182,8 @@ Syrym.prototype.update = function () {
             this.current_action = true;
             ////////////////////////////////////////////Added if statement^^
         } else if (this.game.theSPressed && this.current_action === false) {//S weak kick
-            this.rightwalk = false;
+            this.slide_punch = false;
+			this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -178,7 +196,8 @@ Syrym.prototype.update = function () {
             this.current_action = true;
             ////////////////////////////////////////////Added if statement and weak action booleans^^^^
         } else if (this.game.theDPressed && this.current_action === false) {//D Strong punch
-            this.rightwalk = false;
+			this.slide_punch = false;           
+		   this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -191,7 +210,8 @@ Syrym.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = true;
         } else if (this.game.theFPressed && this.current_action === false) {//F Strong kick
-            this.rightwalk = false;
+			this.slide_punch = false;           
+		   this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -204,7 +224,8 @@ Syrym.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
 
         } else if (this.isRight && this.current_action === false) {//if not any previous actions then just idle to right
-            this.rightwalk = false;
+			this.slide_punch = false;           
+		   this.rightwalk = false;
             this.leftwalk = false;
             this.standing = true;
             this.standingLeft = false;
@@ -214,7 +235,8 @@ Syrym.prototype.update = function () {
             this.weak_kick = false;
             ////////////////////////////////////////////Added weak action booleans^^
         } else if (!this.isRight && this.current_action === false) {// idle to left
-            this.rightwalk = false;
+			this.slide_punch = false;           
+		   this.rightwalk = false;
             this.leftwalk = false;
             this.standingLeft = true;
             this.standing = false;
@@ -224,7 +246,27 @@ Syrym.prototype.update = function () {
             this.weak_kick = false;
             ////////////////////////////////////////////Added weak action booleans^^
         }
+		//===========main change for slide punch
+		if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
+			this.slide_punch = true;
+            this.jumping = false;
+            this.strong_kick = false;
+            this.strong_punch = false;
+            this.weak_kick = false;
+            this.weak_punch = false;
+			this.rightwalk = false;
+            this.leftwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+        } 
     }
+	if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
+        this.lost = true;
+        this.controlled = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------ended if for win/lost here
     if (!this.controlled && !this.current_action) {
         this.my_ai.action();
         //this.rightwalk = false;
@@ -257,13 +299,13 @@ Syrym.prototype.update = function () {
             this.y = this.ground;
         }
         if (this.isRight) {
-            //console.log("Hit right");
+          //  console.log("Hit right");
             if (this.x >= -50) {
                 this.x += -1;
             }
 
             if (this.syrym_low_punched_rightAnimation.isDone()) {
-                //console.log("end of right hit animation");
+             //   console.log("end of right hit animation");
                 this.syrym_low_punched_rightAnimation.elapsedTime = 0;
                 //this.standingLeft = true;
                 this.standing = true;
@@ -271,13 +313,13 @@ Syrym.prototype.update = function () {
                 this.gotHit = false;
             }//add your animations accordingly both left and right hit animations
         } else {
-            //console.log("hit left");
+           // console.log("hit left");
             if (this.x < 1100) {
                 this.x += 1;
             }
 
             if (this.syrym_low_punched_leftAnimation.isDone()) {
-                //console.log("end of hit animation Left");
+              //  console.log("end of hit animation Left");
                 this.syrym_low_punched_leftAnimation.elapsedTime = 0;
                 this.standingLeft = true;
                 this.current_action = false;
@@ -293,8 +335,8 @@ Syrym.prototype.update = function () {
                 if (this.syrym_rightjumpAnimation.isDone()) {
                     this.syrym_rightjumpAnimation.elapsedTime = 0;
                     if(this.jumping){
-			this.game.moveSeffect.playFall();
-		    }
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
                     this.standing = true;
                     this.current_action = false;
@@ -304,9 +346,10 @@ Syrym.prototype.update = function () {
                 if (this.syrym_leftjumpAnimation.isDone()) {
                     this.syrym_leftjumpAnimation.elapsedTime = 0;
                     if(this.jumping){
-			this.game.moveSeffect.playFall();
-		    }
+						this.game.moveSeffect.playFall();
+					}
                     this.jumping = false;
+					this.standing = true;
                 }
                 jumpDistance = this.syrym_leftjumpAnimation.elapsedTime / this.syrym_rightjumpAnimation.totalTime;
             }
@@ -459,7 +502,38 @@ Syrym.prototype.update = function () {
             }
         }
     }//----------------------------------------------------------------------------------added taunt anim here
-
+		if (this.slide_punch) {//slide punch=========================================
+            if (this.isRight) {
+                if (this.syrym_slide_punch_rightAnimation.currentFrame() === 0) {
+                    this.myboxes.setAttackBox(this.x + 310, this.y - 50, 50, 45);// right weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }
+                if (this.syrym_slide_punch_rightAnimation.isDone()) {
+                    this.syrym_slide_punch_rightAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = false;
+                    this.standing = true;
+                    this.current_action = false;
+                }
+            } else {
+                if (this.syrym_slide_punch_leftAnimation.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.myboxes.setAttackBox(this.x + 50, this.y - 50, 50, 45);// Left weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }//to here
+                if (this.syrym_slide_punch_leftAnimation.isDone()) {
+                    this.syrym_slide_punch_leftAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = true;
+                    this.standing = false;
+                    this.current_action = false;
+                }
+            }
+        }
+		
         if (this.weak_punch) {
             if (this.isRight) {
                 if (this.syrym_weak_punch_rightAnimation.currentFrame() === 3) {
@@ -587,27 +661,42 @@ Syrym.prototype.update = function () {
             }
         }
 
-        if (this.rightwalk && this.x <= 1050) {
-            this.x += 8;
+        if (this.controlled && this.game.rightArrow && this.x <= 1050) {
+			
+			if(this.slide_punch) {
+				this.x +=20;
+			} else {
+				this.x += 8;
+			}
 
-        } else if (this.leftwalk && this.x >= -150) {
-            this.x -= 8;
+        } else if (this.controlled && this.game.leftArrow && this.x >= -150) {
 
+			if(this.slide_punch){
+				this.x -=20;
+			} else {
+				this.x -= 8;
+			}
         }
     //}//
     //Entity.prototype.update.call(this);
 }
-
+Syrym.prototype.stopSPunch = function(){
+	this.slide_punch = false;
+	this.game.shift = false;
+	this.game.theAPressed = false;
+	this.leftwalk = false;
+	this.rightwalk = false;
+}
 Syrym.prototype.draw = function (ctx) {
 
   //  ctx.fillStyle = "DarkGreen";
 //    ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
 //    Entity.prototype.draw.call(this);
-    //if (this.current_action) {
-        //ctx.fillStyle = "Red";
-       // ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
-     //   Entity.prototype.draw.call(this);
-    //}
+ //   if (this.current_action) {
+  //      ctx.fillStyle = "Red";
+  //      ctx.fillRect(this.myboxes.attackbox.x, this.myboxes.attackbox.y, this.myboxes.attackbox.width, this.myboxes.attackbox.height);
+//        Entity.prototype.draw.call(this);
+//    }
 
     if (this.jumping) {
         if (this.isRight) {
@@ -621,7 +710,15 @@ Syrym.prototype.draw = function (ctx) {
         } else {
             this.syrym_low_punched_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         }
-    } else if (this.rightwalk) {
+    } else if (this.slide_punch) {
+        if (this.isRight) {
+            this.syrym_slide_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+        } else if (!this.isRight) {
+            this.syrym_slide_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+        }
+        ////////////////////////////////////////////Added if statement^^
+    }  else if (this.rightwalk) {
         this.syrym_rightwalkAnim.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.leftwalk) {
         this.syrym_leftwalkAnim.drawFrame(this.game, ctx, this.x, this.y - 150);
@@ -645,12 +742,12 @@ Syrym.prototype.draw = function (ctx) {
         if (this.isRight) {
             this.syrym_victory_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
            if (this.syrym_victory_right_Animation.isDone()) {
-                syrym_victory2_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
+               this.syrym_victory2_right_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
             }
         } else {
             this.syrym_victory_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150);
             if (this.syrym_victory_left_Animation.isDone()) {
-                syrym_victory2_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
+               this.syrym_victory2_left_Animation.drawFrame(this.game, ctx, this.x, this.y - 150)
             }
         }//<------------------------------------------------------------------------------------------added loss/win animation here
     } else if (this.weak_punch) {
@@ -658,7 +755,7 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_weak_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_weak_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.weak_kick) {
@@ -666,7 +763,7 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_weak_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_weak_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+           // console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
         ////////////////////////////////////////////Added if statement^^
     } else if (this.strong_punch) {
@@ -674,14 +771,14 @@ Syrym.prototype.draw = function (ctx) {
             this.syrym_strong_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_strong_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            ////console.log("this.x " + this.x + " this.y " + this.y, +" ");
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.strong_kick) {
         if (this.isRight) {
             this.syrym_strong_kick_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
         } else if (!this.isRight) {
             this.syrym_strong_kick_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
-            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+           // console.log("this.x " + this.x + " this.y " + this.y, +" ");
         }
     } else if (this.standing) {//////////////////////////////////////
         this.syrym_standingAnim.drawFrame(this.game, ctx, this.x, this.y - 150);
