@@ -89,9 +89,9 @@ Vlad.prototype.updateOrientation = function () {
     this.ground = 410;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
-    this.offset = 35;
+    this.offset = 62;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 35);
+        this.my_ai = new Ai_controller(this.game, 62);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }

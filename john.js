@@ -94,9 +94,9 @@ John.prototype.updateOrientation = function () {
     this.start = this.isPlayer ? 100 : 1000;
     this.ground = 440;
     this.controlled = this.isPlayer;
-    this.offset = 10;
+    this.offset = 35;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 10);
+        this.my_ai = new Ai_controller(this.game, -35);
     }
 
     Entity.call(this, this.game, this.start, this.ground);

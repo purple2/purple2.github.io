@@ -103,9 +103,9 @@ Alex.prototype.updateOrientation = function () {
     this.start = this.isPlayer ? 100 : 1000;
     this.ground = 410;
     this.controlled = this.isPlayer;
-    this.offset = 40;
+    this.offset = -35;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 40);
+        this.my_ai = new Ai_controller(this.game, -35);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }

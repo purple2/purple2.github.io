@@ -1,4 +1,4 @@
-function Boss(game, isPlayer) {
+﻿function Boss(game, isPlayer) {
     //Boss Sprite
     this.boss_standingAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 0, 0, 360, 450, .03, 1, true, false, 0);
     this.boss_rightwalkAnim = new Animation(ASSET_MANAGER.getAsset("./img/boss.png"), 65, 405,298, 450, .1, 17, true, false, 0);
@@ -83,9 +83,9 @@ Boss.prototype.updateOrientation = function () {
     this.ground =485;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
-    this.offset = 0;
+    this.offset = 62;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 30);
+        this.my_ai = new Ai_controller(this.game, 62);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }
@@ -97,10 +97,10 @@ Boss.prototype.update = function () {
     //this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);
     if (this.isRight) {
         this.myboxes.setHitbox(this.x + 140, this.y - 230, 125, 300);
-        this.offset = 70;
+        this.offset = 62;
     } if (!this.isRight) {
         this.myboxes.setHitbox(this.x - 10, this.y - 230, 125, 300);
-        this.offset = -5;
+        this.offset = 57;
     }
 
     if (this.controlled) {
