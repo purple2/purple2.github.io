@@ -690,6 +690,8 @@ Syrym.prototype.update = function () {
     //Entity.prototype.update.call(this);
 }
 Syrym.prototype.stopSPunch = function(){
+	this.game.rightArrow = false;
+	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
