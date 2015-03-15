@@ -59,6 +59,8 @@ Hitbox.prototype.attackenemy = function () {
             }
             if (ent2.weak_punch || ent2.weak_kick) {
                 damage *= 8;
+            } else if(ent2.slide_punch) {
+                damage *= 32;
             } else {
                 damage *= 16;
             }
@@ -69,7 +71,8 @@ Hitbox.prototype.attackenemy = function () {
             } else {
                 ent.gotHit = true;
             }
-            
+            this.attackSeffect.playSeffect();
+			if(ent.gotHit && ent2.slide_punch) ent2.stopSPunch();
             ent.bar.decreaseHealth(damage);
             //console.log("Player hit lost " + damage + "health");
         }
@@ -88,6 +91,8 @@ Hitbox.prototype.attackenemy = function () {
             }
             if (ent.weak_punch || ent.weak_kick) {
                 damage *= 8;
+            } else if (ent.slide_punch) {
+                damage *= 32;
             } else {
                 damage *= 16;
             }
@@ -98,13 +103,13 @@ Hitbox.prototype.attackenemy = function () {
             } else {
                 ent2.gotHit = true;
             }
-
+            this.attackSeffect.playSeffect();
+			if(ent2.gotHit && ent.slide_punch) ent.stopSPunch();
             //console.log("Player hit lost " + damage + "health");
             ent2.bar.decreaseHealth(damage);
             
         }
     }
-    this.attackSeffect.playSeffect();
 }
 
 
