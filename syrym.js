@@ -127,6 +127,7 @@ Syrym.prototype.update = function () {
 		}
 		
 		if (this.game.space) {
+	    this.slide_punch = false;
             this.jumping = true;
             this.strong_kick = false;
             this.strong_punch = false;
