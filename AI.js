@@ -19,7 +19,7 @@ Ai_controller.prototype.action = function () {
         ent2.standing = false;
         ent2.standingLeft = false;
         ent2.isRight = false;
-        ent2.x += -2;
+        ent2.x += -3;
         if (((ent2.x+ this.offset) - (ent.x+offset2)) <= 115) {
             this.count = this.wait;
         }
@@ -30,7 +30,7 @@ Ai_controller.prototype.action = function () {
         ent2.standing = false;
         ent2.standingLeft = false;
         ent2.isRight = true;
-        ent2.x += 2;
+        ent2.x += 3;
         if (ent2.x - ent.x >= -90) {
             this.count = this.wait;
         }
