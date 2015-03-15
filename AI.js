@@ -1,7 +1,7 @@
 function Ai_controller(game, offset) {
     this.game = game;
     this.offset = offset;
-    this.wait = 25;
+    this.wait = 15;
     this.count = 0;
 }
 
@@ -9,21 +9,22 @@ function Ai_controller(game, offset) {
 Ai_controller.prototype.action = function () {
     var ent = this.game.entities[1];
     var ent2 = this.game.entities[2];
+    var offset2 = ent.offset;
     if (this.count === 0) {
 
     
-    if (ent2.x - ent.x > 105) {
+    if (((ent2.x+this.offset) - (ent.x + offset2)) > 115) {
         ent2.leftwalk = true;
         ent2.rightwalk = false;
         ent2.standing = false;
         ent2.standingLeft = false;
         ent2.isRight = false;
         ent2.x += -2;
-        if (ent2.x - ent.x <= 105) {
+        if (((ent2.x+ this.offset) - (ent.x+offset2)) <= 115) {
             this.count = this.wait;
         }
         //move left
-    } else if(ent2.x-ent.x< -90){
+    } else if(((ent2.x + this.offset)-(ent.x - offset2))< -90){
         ent2.rightwalk = true;
         ent2.leftwalk = false;
         ent2.standing = false;

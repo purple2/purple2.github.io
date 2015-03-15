@@ -83,6 +83,7 @@ Boss.prototype.updateOrientation = function () {
     this.ground =485;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
+    this.offset = 0;
     if (!this.isPlayer) {
         this.my_ai = new Ai_controller(this.game, 30);
     }
@@ -96,8 +97,10 @@ Boss.prototype.update = function () {
     //this.myboxes.setAttackBox(this.x + 180, this.y - 120, 125, 45);
     if (this.isRight) {
         this.myboxes.setHitbox(this.x + 140, this.y - 230, 125, 300);
+        this.offset = 70;
     } if (!this.isRight) {
-        this.myboxes.setHitbox(this.x-10, this.y - 230, 125, 300);
+        this.myboxes.setHitbox(this.x - 10, this.y - 230, 125, 300);
+        this.offset = -5;
     }
 
     if (this.controlled) {

@@ -97,8 +97,9 @@ Syrym.prototype.updateOrientation = function () {
     this.ground = 355;
     this.controlled = this.isPlayer;
     this.bar = new Bar(this.game, this);
+    this.offset = 80;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 30);
+        this.my_ai = new Ai_controller(this.game, 80);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }
