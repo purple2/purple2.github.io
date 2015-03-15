@@ -292,6 +292,7 @@ Syrym.prototype.update = function () {
         this.weak_kick = false;
         this.strong_punch = false;
         this.strong_kick = false;
+        this.slide_punch = false;
         if (this.jumping) {
             this.syrym_rightjumpAnimation.elapsedTime = 0;
             this.syrym_leftjumpAnimation.elapsedTime = 0;
@@ -383,11 +384,13 @@ Syrym.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = false;
             this.strong_kick = false;
+            this.slide_punch = false;
 
         }
-            if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
-        if (this.isRight) {
+     if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
+	 if (this.isRight) {
             if (this.syrym_lost_right_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -406,6 +409,7 @@ Syrym.prototype.update = function () {
             }
         } else {
             if (this.syrym_lost_left_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -426,6 +430,7 @@ Syrym.prototype.update = function () {
     if (this.won) {
         if (this.isRight) {
             if (this.syrym_victory_right_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -444,6 +449,7 @@ Syrym.prototype.update = function () {
             }
         } else {
             if (this.syrym_victory_left_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -466,6 +472,7 @@ Syrym.prototype.update = function () {
         if (this.isRight) {
             if (this.syrym_taunt_rightAnimation.isDone()) {
                 this.syrym_taunt_rightAnimation.elapsedTime = 0;
+                this.slide_punch = false;
                 this.taunt = false;
                 this.jumping = false;
                 this.standing = false;
@@ -485,6 +492,7 @@ Syrym.prototype.update = function () {
         } else {
             if (this.syrym_taunt_leftAnimation.isDone()) {
                 this.syrym_taunt_leftAnimation.elapsedTime = 0;
+                this.slide_punch = false;
                 this.taunt = false;
                 this.jumping = false;
                 this.standing = false;
