@@ -60,10 +60,15 @@ function John(game, isPlayer) {
     this.victoryRightStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 955, 3850, 135, 330, 5, 1, false, false, 0);
     this.victoryLeftStill = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 1440+955, 3850, 135, 330, 5, 1, false, true, 0);
     
+    	   //slide punch
+    this.slidePunchRight = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Right.png"), 1400, 2170, 200, 280, .07, 1, true, false, 0);
+    this.slidePunchLeft = new Animation(ASSET_MANAGER.getAsset("./img/John_Sprites_Left.png"), 0, 2170, 200, 280, .07, 1, true, true, 0);
     //John's home turf
     this.turf = "./img/staircase.png";
     
     //new boolean values added here
+    this.slide_punch = false; //=====================slide punch
+
     this.weak_punch = false;
     this.weak_kick = false;
     this.strong_punch = false;
@@ -110,25 +115,33 @@ John.prototype.update = function () {
     }
 
     if (this.controlled) {//
+ 	if(this.game.rightArrow){
+		this.isRight = true;
+	} else if (this.game.leftArrow){
+		this.isRight = false;
+	}
         if (this.game.space) {
             this.jumping = true;
             this.strong_kick = false;
             this.strong_punch = false;
             this.weak_kick = false;
             this.weak_punch = false;
+            this.slide_punch = false;
         }
         if (this.game.rightArrow && this.current_action === false) {
             this.rightwalk = true;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = true;
+         //   this.isRight = true;
+            this.slide_punch = false;
         } else if (this.game.leftArrow && this.current_action === false) {
             this.leftwalk = true;
             this.rightwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = false;
+        //    this.isRight = false;
+            this.slide_punch = false;
         } else if (this.game.downArrow && this.isRight && this.current_action === false) {
             this.rightwalk = false;
             this.leftwalk = false;
@@ -137,6 +150,7 @@ John.prototype.update = function () {
             this.sittingRight = true;
             this.sittingLeft = false;
             this.strong_kick = false;
+            this.slide_punch = false;
         } else if (this.game.downArrow && !this.isRight && this.current_action === false) {
             this.rightwalk = false;
             this.leftwalk = false;
@@ -145,6 +159,7 @@ John.prototype.update = function () {
             this.sittingRight = false;
             this.sittingLeft = true;
             this.strong_kick = false;
+            this.slide_punch = false;
 
         } else if (this.game.theAPressed && this.current_action === false) {//A weak punch
             this.rightwalk = false;
@@ -158,6 +173,7 @@ John.prototype.update = function () {
             this.weak_kick = false;
             this.weak_punch = true;
             this.current_action = true;
+            this.slide_punch = false;
             ////////////////////////////////////////////Added if statement^^
         } else if (this.game.theSPressed && this.current_action === false) {//S weak kick
             this.rightwalk = false;
@@ -171,6 +187,7 @@ John.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = true;
             this.current_action = true;
+            this.slide_punch = false;
             ////////////////////////////////////////////Added if statement and weak action booleans^^^^
         } else if (this.game.theDPressed && this.current_action === false) {//D Strong punch
             this.rightwalk = false;
@@ -185,6 +202,7 @@ John.prototype.update = function () {
             this.current_action = true;
             ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = true;
+            this.slide_punch = false;
         } else if (this.game.theFPressed && this.current_action === false) {//F Strong kick
             this.rightwalk = false;
             this.leftwalk = false;
@@ -196,6 +214,7 @@ John.prototype.update = function () {
             this.weak_kick = false;
             this.strong_kick = true;
             this.current_action = true;
+            this.slide_punch = false;
             ////////////////////////////////////////////Added weak action booleans^^
 
         } else if (this.isRight && this.current_action === false) {//if not any previous actions then just idle to right
@@ -207,6 +226,7 @@ John.prototype.update = function () {
             this.sittingLeft = false;
             this.weak_punch = false;
             this.weak_kick = false;
+            this.slide_punch = false;
             ////////////////////////////////////////////Added weak action booleans^^
         } else if (!this.isRight && this.current_action === false) {// idle to left
             this.rightwalk = false;
@@ -217,8 +237,24 @@ John.prototype.update = function () {
             this.sittingLeft = false;
             this.weak_punch = false;
             this.weak_kick = false;
+            this.slide_punch = false;
             ////////////////////////////////////////////Added weak action booleans^^
         }
+			//===========main change for slide punch
+	if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
+			this.slide_punch = true;
+       	    this.jumping = false;
+            this.strong_kick = false;
+            this.strong_punch = false;
+            this.weak_kick = false;
+            this.weak_punch = false;
+			this.rightwalk = false;
+            this.leftwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+        } 
     }
     if (!this.controlled && !this.current_action) {
         this.my_ai.action();
@@ -245,6 +281,7 @@ John.prototype.update = function () {
         this.weak_kick = false;
         this.strong_punch = false;
         this.strong_kick = false;
+        this.slide_punch = false;
         if (this.jumping) {
             this.jumpRight.elapsedTime = 0;
             this.jumpLeft.elapsedTime = 0;
@@ -342,6 +379,7 @@ John.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
             this.strong_punch = false;
             this.strong_kick = false;
+            this.slide_punch = false;
     }
     if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
         if (this.isRight) {
@@ -360,6 +398,7 @@ John.prototype.update = function () {
                 this.strong_punch = false;
                 this.strong_kick = false;
                 this.gotHit = false;
+                this.slide_punch = false;
             }
         } else {
             if (this.defeatLeft.isDone()) {
@@ -377,6 +416,7 @@ John.prototype.update = function () {
                 this.strong_punch = false;
                 this.strong_kick = false;
                 this.gotHit = false;
+                this.slide_punch = false;
             }
         }
     }
@@ -397,6 +437,7 @@ John.prototype.update = function () {
                 this.strong_punch = false;
                 this.gotHit = false;
                 this.strong_kick = false;
+                this.slide_punch = false;
 
             }
         } else {
@@ -415,6 +456,7 @@ John.prototype.update = function () {
                 this.weak_kick = false;
                 this.strong_punch = false;
                 this.strong_kick = false;
+                this.slide_punch = false;
             }
         }
     }//----------------------------------------------------------------------------------ended if for win/lost here
@@ -437,6 +479,7 @@ John.prototype.update = function () {
                 this.weak_kick = false;
                 this.strong_punch = false;
                 this.strong_kick = false;
+                this.slide_punch = false;
 
             }
         } else {
@@ -456,9 +499,41 @@ John.prototype.update = function () {
                 this.weak_kick = false;
                 this.strong_punch = false;
                 this.strong_kick = false;
+                this.slide_punch = false;
             }
         }
     }
+    if (this.slide_punch) {//slide punch=========================================
+            if (this.isRight) {
+                if (this.slidePunchRight.currentFrame() === 0) {
+                    this.myboxes.setAttackBox(this.x + 92, this.y - 100, 80, 25);// right weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }
+                if (this.slidePunchRight.isDone()) {
+                    this.slidePunchRight.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = false;
+                    this.standing = true;
+                    this.current_action = false;
+                }
+            } else {
+                if (this.slidePunchLeft.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.myboxes.setAttackBox(this.x, this.y - 100, -80, 25);// Left weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }//to here
+                if (this.slidePunchLeft.isDone()) {
+                    this.slidePunchLeft.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = true;
+                    this.standing = false;
+                    this.current_action = false;
+                }
+            }
+        }
         if (this.weak_punch) {
             if (this.isRight) {
                 if (this.wkPunchRight.currentFrame() === 10) {
@@ -589,18 +664,33 @@ John.prototype.update = function () {
             this.x -= 3;
             
         }*/
-        if (this.controlled && this.rightwalk && this.x <= 1150) {
-            this.x += 5;
+        if (this.controlled && this.game.rightArrow && this.x <= 1150) {
+			
+			if(this.slide_punch) {
+				this.x +=20;
+			} else {
+				this.x += 5;
+			}
 
-        } else if (this.controlled && this.leftwalk && this.x >= -50) {
-            this.x -= 5;
+        } else if (this.controlled && this.game.leftArrow && this.x >= -50) {
 
+			if(this.slide_punch){
+				this.x -=20;
+			} else {
+				this.x -= 5;
+			}
         }
 
         
     //Entity.prototype.update.call(this);
 }
-
+John.prototype.stopSPunch = function(){
+	this.slide_punch = false;
+	this.game.shift = false;
+	this.game.theAPressed = false;
+	this.leftwalk = false;
+	this.rightwalk = false;
+}
 John.prototype.draw = function (ctx) {
     /*ctx.fillStyle = "DarkGreen";
     ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
@@ -623,7 +713,13 @@ John.prototype.draw = function (ctx) {
         } else {
             this.bdyLeft.drawFrame(this.game, ctx, this.x, this.y - 150);
         }
-
+    } else if (this.slide_punch) {
+        if (this.isRight) {
+            this.slidePunchRight.drawFrame(this.game, ctx, this.x, this.y - 150);
+        } else if (!this.isRight) {
+            this.slidePunchLeft.drawFrame(this.game, ctx, this.x, this.y - 150);
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+        }
     } else if (this.rightwalk) {
         this.walkRight.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.leftwalk) {
