@@ -43,10 +43,18 @@ function Vlad(game, isPlayer) {
 
     this.vlad_Left_hit_animation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite_reverse.png"), 0, (2304 / 5) * 11, (1536 / 5) + 2, 2304 / 5, .1, 7, false, true, 32);
 
+	    /////new controls animation slide punch
+    this.vlad_slide_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite_reverse.png"), 921.6, (2304 / 5) * 2, 307.2, 2304 / 5, .1, 1, true, false, 0);
+
+    this.vlad_slide_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/Vlad_Sprite.png"), 921.6, (2304 / 5) * 2, 307.2, 2304 / 5, .1, 1, true, true, 0);
+
+
     //Vlad's turf
     this.turf = "./img/union_station.png";
 
     //new boolean values added here
+    this.slide_punch = false; //=====================slide punch
+
     this.weak_punch = false;
     this.weak_kick = false;
     this.strong_punch = false;
@@ -108,7 +116,14 @@ Vlad.prototype.update = function () {
     }
 
     if (this.controlled) {
+	if (this.game.rightArrow){
+		this.isRight = true;
+	} else if (this.game.leftArrow){
+		this.isRight = false;
+	}
+	
         if (this.game.space) {
+        this.slide_punch = false;
             this.jumping = true;
             this.strong_kick = false;
             this.strong_punch = false;
@@ -116,6 +131,7 @@ Vlad.prototype.update = function () {
             this.weak_punch = false;
         }
         if (this.game.rightArrow && this.current_action === false) {
+            this.slide_punch = false;	
             this.rightwalk = true;
             this.leftwalk = false;
             this.standing = false;
@@ -123,6 +139,7 @@ Vlad.prototype.update = function () {
             this.isRight = true;
         } else if (this.game.leftArrow && this.current_action === false) {
             this.leftwalk = true;
+            this.slide_punch = false;
             this.rightwalk = false;
             this.standing = false;
             this.standingLeft = false;
@@ -135,6 +152,7 @@ Vlad.prototype.update = function () {
             this.sittingRight = true;
             this.sittingLeft = false;
             this.strong_kick = false;
+            this.slide_punch = false;
         } else if (this.game.downArrow && !this.isRight && this.current_action === false) {
             this.rightwalk = false;
             this.leftwalk = false;
@@ -143,6 +161,7 @@ Vlad.prototype.update = function () {
             this.sittingRight = false;
             this.sittingLeft = true;
             this.strong_kick = false;
+            this.slide_punch = false;
 
         } else if (this.game.theAPressed && this.current_action === false) {//A weak punch
             this.rightwalk = false;
@@ -156,6 +175,7 @@ Vlad.prototype.update = function () {
             this.weak_kick = false;
             this.weak_punch = true;
             this.current_action = true;
+            this.slide_punch = false;
         } else if (this.game.theSPressed && this.current_action === false) {//S weak kick
             this.rightwalk = false;
             this.leftwalk = false;
@@ -168,6 +188,7 @@ Vlad.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = true;
             this.current_action = true;
+            this.slide_punch = false;
         } else if (this.game.theDPressed && this.current_action === false) {//D Strong punch
             this.rightwalk = false;
             this.leftwalk = false;
@@ -178,6 +199,7 @@ Vlad.prototype.update = function () {
             this.strong_kick = false;
             this.strong_punch = true;
             this.current_action = true;
+            this.slide_punch = false;
         } else if (this.game.theFPressed && this.current_action === false) {//F Strong kick
             this.rightwalk = false;
             this.leftwalk = false;
@@ -187,6 +209,7 @@ Vlad.prototype.update = function () {
             this.sittingLeft = false;
             this.strong_kick = true;
             this.current_action = true;
+            this.slide_punch = false;
         } else if (this.isRight && this.current_action === false) {//if not any previous actions then just idle to right
             this.rightwalk = false;
             this.leftwalk = false;
@@ -194,11 +217,27 @@ Vlad.prototype.update = function () {
             this.standingLeft = false;
             this.sittingRight = false;
             this.sittingLeft = false;
+            this.slide_punch = false;
         } else if (!this.isRight && this.current_action === false) {// idle to left
             this.rightwalk = false;
             this.leftwalk = false;
             this.standingLeft = true;
             this.standing = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+            this.slide_punch = false;
+        }
+        if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
+	     this.slide_punch = true;
+            this.jumping = false;
+            this.strong_kick = false;
+            this.strong_punch = false;
+            this.weak_kick = false;
+            this.weak_punch = false;
+            this.rightwalk = false;
+            this.leftwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
             this.sittingRight = false;
             this.sittingLeft = false;
         }
@@ -231,6 +270,7 @@ Vlad.prototype.update = function () {
         this.weak_punch = false;
         this.weak_kick = false;
         this.strong_punch = false;
+        this.slide_punch = false;
         this.strong_kick = false;
         if (this.jumping) {
             this.vlad_jumpAnimation.elapsedTime = 0;
@@ -322,6 +362,7 @@ Vlad.prototype.update = function () {
         this.weak_kick = false;
         this.strong_punch = false;
         this.strong_kick = false;
+        this.slide_punch = false;
 
     }
     if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
@@ -340,6 +381,7 @@ Vlad.prototype.update = function () {
             this.strong_punch = false;
             this.strong_kick = false;
             this.gotHit = false;
+            this.slide_punch = false;
         }
     }
 
@@ -359,9 +401,40 @@ Vlad.prototype.update = function () {
             this.strong_punch = false;
             this.gotHit = false;
             this.strong_kick = false;
+            this.slide_punch = false;
         }
     }
-
+    if (this.slide_punch) {//slide punch=========================================
+            if (this.isRight) {
+                if (this.vlad_slide_punch_rightAnimation.currentFrame() === 0) {
+                    this.myboxes.setAttackBox(this.x + 80, this.y - 100, 125, 45);// right weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }
+                if (this.vlad_slide_punch_rightAnimation.isDone()) {
+                    this.vlad_slide_punch_rightAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = false;
+                    this.standing = true;
+                    this.current_action = false;
+                }
+            } else {
+                if (this.vlad_slide_punch_leftAnimation.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.myboxes.setAttackBox(this.x + 40, this.y - 100, 125, 45);// Left weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }//to here
+                if (this.vlad_slide_punch_leftAnimation.isDone()) {
+                    this.vlad_slide_punch_leftAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = true;
+                    this.standing = false;
+                    this.current_action = false;
+                }
+            }
+    }
     if (this.weak_punch) {
         if (this.isRight) {
             if (this.vlad_weak_punch_rightAnimation.currentFrame() === 3) {
@@ -482,16 +555,31 @@ Vlad.prototype.update = function () {
 
     }
 
-    if (this.controlled && this.rightwalk && this.x <= 1100) {
-        this.x += 3;
+    if (this.controlled && this.game.rightArrow && this.x <= 1100) {
+			
+		if(this.slide_punch) {
+			this.x +=20;
+		} else {
+			this.x += 3;
+		}
 
-    } else if (this.controlled && this.leftwalk && this.x >= -50) {
-        this.x -= 3;
+    } else if (this.controlled && this.game.leftArrow && this.x >= -50) {
 
+		if(this.slide_punch){
+			this.x -=20;
+		} else {
+			this.x -= 3;
+		}
     }
     //}//where controlled is
 }
-
+Vlad.prototype.stopSPunch = function(){
+	this.slide_punch = false;
+	this.game.shift = false;
+	this.game.theAPressed = false;
+	this.leftwalk = false;
+	this.rightwalk = false;
+}
 Vlad.prototype.draw = function (ctx) {
     //commented this part out since is was used for setting hitboxes testing
     //ctx.fillStyle = "DarkGreen";
@@ -514,7 +602,14 @@ Vlad.prototype.draw = function (ctx) {
         } else {
             this.vlad_Left_hit_animation.drawFrame(this.game, ctx, this.x - 30, this.y - 300);
         }
-
+    } else if (this.slide_punch) {
+        if (this.isRight) {
+            this.vlad_slide_punch_rightAnimation.drawFrame(this.game, ctx,  this.x - 30, this.y - 300);
+        } else if (!this.isRight) {
+            this.vlad_slide_punch_leftAnimation.drawFrame(this.game, ctx,  this.x - 30, this.y - 300);
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+        }
+	
     } else if (this.rightwalk) {
         this.vlad_rightwalkAnim.drawFrame(this.game, ctx, this.x, this.y - 300);
     } else if (this.leftwalk) {
