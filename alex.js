@@ -64,10 +64,15 @@ function Alex(game, isPlayer) {
     this.alex_taunt_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 2008 - 1002, 2250 + 10 - 325, 251.5, 325, .2, 4, false, true, 0);
     //----------------------------------------------------------------------------------ended taunt anim here
     
+    //slide punch
+    this.alex_slide_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 754.5, 650, 251.5, 325, .1, 1, true, false, 0);
+    this.alex_slide_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 0, 650, 251.5, 325, .1, 1, true, true, 0);
+    
     //Alex's turf
     this.turf = "./img/narrows.png";
     
     //new boolean values added here
+    this.slide_punch = false; //=====================slide punch
     this.weak_punch = false;
     this.taunt = false;//----------------------------------------------------------------------------------set taunt to false here
     this.weak_kick = false;
@@ -121,7 +126,14 @@ Alex.prototype.update = function () {
     }
 
     if (this.controlled) {//
+    	if (this.game.rightArrow){
+		this.isRight = true;
+	} else if (this.game.leftArrow){
+		this.isRight = false;
+	}
+	
         if (this.game.space) {
+            this.slide_punch = false;
             this.jumping = true;
             this.strong_kick = false;
             this.strong_punch = false;
@@ -129,18 +141,21 @@ Alex.prototype.update = function () {
             this.weak_punch = false;
         }
         if (this.game.rightArrow && this.current_action === false) {
+            this.slide_punch = false; 	
             this.rightwalk = true;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
             this.isRight = true;
         } else if (this.game.leftArrow && this.current_action === false) {
+            this.slide_punch = false;
             this.leftwalk = true;
             this.rightwalk = false;
             this.standing = false;
             this.standingLeft = false;
             this.isRight = false;
         } else if (this.game.downArrow && this.isRight && this.current_action === false) {
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -149,6 +164,7 @@ Alex.prototype.update = function () {
             this.sittingLeft = false;
             this.strong_kick = false;
         } else if (this.game.downArrow && !this.isRight && this.current_action === false) {
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -158,6 +174,7 @@ Alex.prototype.update = function () {
             this.strong_kick = false;
 
         } else if (this.game.theAPressed && this.current_action === false) {//A weak punch
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -170,6 +187,7 @@ Alex.prototype.update = function () {
             this.weak_punch = true;
             this.current_action = true;//----------------------------------------------------------------------------------added taunt anim here
         } else if (this.game.theTPressed && this.current_action === false) {//T taunt
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -182,6 +200,7 @@ Alex.prototype.update = function () {
             this.taunt = true;
             this.current_action = true;//----------------------------------------------------------------------------------added taunt anim here
         } else if (this.game.theSPressed && this.current_action === false) {//S weak kick
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -194,6 +213,7 @@ Alex.prototype.update = function () {
             this.weak_kick = true;
             this.current_action = true;
         } else if (this.game.theDPressed && this.current_action === false) {//D Strong punch
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -206,6 +226,7 @@ Alex.prototype.update = function () {
             this.current_action = true;
             this.strong_punch = true;
         } else if (this.game.theFPressed && this.current_action === false) {//F Strong kick
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
@@ -216,6 +237,7 @@ Alex.prototype.update = function () {
             this.current_action = true;
 
         } else if (this.isRight && this.current_action === false) {//if not any previous actions then just idle to right
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standing = true;
@@ -225,6 +247,7 @@ Alex.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = false;
         } else if (!this.isRight && this.current_action === false) {// idle to left
+            this.slide_punch = false;
             this.rightwalk = false;
             this.leftwalk = false;
             this.standingLeft = true;
@@ -234,7 +257,21 @@ Alex.prototype.update = function () {
             this.weak_punch = false;
             this.weak_kick = false;
         }
-
+		//===========main change for slide punch
+	if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
+	    this.slide_punch = true;
+            this.jumping = false;
+            this.strong_kick = false;
+            this.strong_punch = false;
+            this.weak_kick = false;
+            this.weak_punch = false;
+	    this.rightwalk = false;
+            this.leftwalk = false;
+            this.standing = false;
+            this.standingLeft = false;
+            this.sittingRight = false;
+            this.sittingLeft = false;
+        } 
     }
     if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
         this.lost = true;
@@ -479,6 +516,37 @@ Alex.prototype.update = function () {
             }
         }
     }//----------------------------------------------------------------------------------added taunt anim here
+        if (this.slide_punch) {//slide punch=========================================
+            if (this.isRight) {
+                if (this.alex_slide_punch_rightAnimation.currentFrame() === 0) {
+                    this.myboxes.setAttackBox(this.x + 80, this.y - 100, 125, 45);// right weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }
+                if (this.alex_slide_punch_rightAnimation.isDone()) {
+                    this.alex_slide_punch_rightAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = false;
+                    this.standing = true;
+                    this.current_action = false;
+                }
+            } else {
+                if (this.alex_slide_punch_leftAnimation.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.myboxes.setAttackBox(this.x + 40, this.y - 100, 125, 45);// Left weak punch hitbox set****
+                    this.myboxes.setAttack();
+                    this.myboxes.attackenemy();
+                    this.myboxes.unsetAttack();
+                }//to here
+                if (this.alex_slide_punch_leftAnimation.isDone()) {
+                    this.alex_slide_punch_leftAnimation.elapsedTime = 0;
+                    this.slide_punch = false;
+                    //this.standingLeft = true;
+                    this.standing = false;
+                    this.current_action = false;
+                }
+            }
+        }
         if (this.weak_punch) {
             if (this.isRight) {
                 if (this.alex_weak_punch_rightAnimation.currentFrame() === 3) {
@@ -608,18 +676,33 @@ Alex.prototype.update = function () {
             }
         }
 
-        if (this.controlled && this.rightwalk && this.x <= 1150) {
-            this.x += 3;
-            
-        } else if (this.controlled && this.leftwalk && this.x >= -50) {
-            this.x -= 3;
-            
+      if (this.controlled && this.game.rightArrow && this.x <= 1150) {
+			
+			if(this.slide_punch) {
+				this.x +=20;
+			} else {
+				this.x += 3;
+			}
+
+        } else if (this.controlled && this.game.leftArrow && this.x >= -50) {
+
+			if(this.slide_punch){
+				this.x -=20;
+			} else {
+				this.x -= 3;
+			}
         }
         
     //}//
     Entity.prototype.update.call(this);
 }
-
+Alex.prototype.stopSPunch = function(){
+	this.slide_punch = false;
+	this.game.shift = false;
+	this.game.theAPressed = false;
+	this.leftwalk = false;
+	this.rightwalk = false;
+}
 Alex.prototype.draw = function (ctx) {
     //ctx.fillStyle = "DarkGreen";
     //ctx.fillRect(this.myboxes.hitbox.x, this.myboxes.hitbox.y, this.myboxes.hitbox.width, this.myboxes.hitbox.height);
@@ -641,6 +724,14 @@ Alex.prototype.draw = function (ctx) {
         } else {
             this.alex_high_hit_leftAnimation.drawFrame(this.game, ctx, this.x , this.y - 150);
         }
+    } else if (this.slide_punch) {
+        if (this.isRight) {
+            this.alex_slide_punch_rightAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+        } else if (!this.isRight) {
+            this.alex_slide_punch_leftAnimation.drawFrame(this.game, ctx, this.x, this.y - 150);
+            //console.log("this.x " + this.x + " this.y " + this.y, +" ");
+        }
+	
     } else if (this.rightwalk) {
         this.alex_rightwalkAnim.drawFrame(this.game, ctx, this.x, this.y - 150);
     } else if (this.leftwalk) {
