@@ -45,7 +45,7 @@ SoundEffect.prototype.playSeffect = function () {
             this.punchWSound.play();
         } else if (ent.strong_punch || ent2.strong_punch) { //s p
             this.punchSSound.play();
-        } else if (ent.strong_kick || ent2.strong_kick) { //s k 
+        } else if (ent.strong_kick || ent2.strong_kick || ent2.slide_punch || ent.slide_punch) { //s k 
             this.kickSSound.play();
         } else if (ent.weak_kick || ent2.weak_kick) { //w k 
             this.kickWSound.play();
