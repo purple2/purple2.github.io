@@ -146,14 +146,14 @@ Alex.prototype.update = function () {
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = true;
+         //   this.isRight = true;
         } else if (this.game.leftArrow && this.current_action === false) {
             this.slide_punch = false;
             this.leftwalk = true;
             this.rightwalk = false;
             this.standing = false;
             this.standingLeft = false;
-            this.isRight = false;
+        //    this.isRight = false;
         } else if (this.game.downArrow && this.isRight && this.current_action === false) {
             this.slide_punch = false;
             this.rightwalk = false;
