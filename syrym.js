@@ -519,7 +519,7 @@ Syrym.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }
-                if (this.syrym_slide_punch_rightAnimation.isDone()) {
+                if (!this.game.rightArrow) {
                     this.syrym_slide_punch_rightAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = false;
@@ -533,7 +533,7 @@ Syrym.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }//to here
-                if (this.syrym_slide_punch_leftAnimation.isDone()) {
+                if (!this.game.leftArrow) {
                     this.syrym_slide_punch_leftAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = true;
