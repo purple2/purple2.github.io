@@ -295,6 +295,7 @@ Alex.prototype.update = function () {
     }
     if (this.gotHit) {
         this.current_action = true;
+        this.slide_punch = false;
         this.rightwalk = false;
         this.leftwalk = false;
         this.standing = false;
@@ -387,6 +388,7 @@ Alex.prototype.update = function () {
             } else if (this.game.leftArrow && this.x > -50 && this.controlled) {
                 this.x -= 10;
             }
+            this.slide_punch = false;
             this.leftwalk = false;
             this.rightwalk = false;
             this.standing = false;
@@ -402,6 +404,7 @@ Alex.prototype.update = function () {
     if (this.lost) {//----------------------------------------------------------------------------------added if for win/lost here
         if (this.isRight) {
             if (this.alex_lost_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -420,6 +423,7 @@ Alex.prototype.update = function () {
             }
         } else {
             if (this.alex_lost_leftAnimation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -440,6 +444,7 @@ Alex.prototype.update = function () {
     if (this.won) {
         if (this.isRight) {
             if (this.alex_lost_Animation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -458,6 +463,7 @@ Alex.prototype.update = function () {
             }
         } else {
             if (this.alex_lost_leftAnimation.isDone()) {
+            	this.slide_punch = false;
                 this.jumping = false;
                 this.standing = false;
                 this.current_action = false;
@@ -480,6 +486,7 @@ Alex.prototype.update = function () {
         if (this.isRight) {
             if (this.alex_taunt_rightAnimation.isDone()) {
                 this.alex_taunt_rightAnimation.elapsedTime = 0;
+                this.slide_punch = false;
                 this.taunt = false;
                 this.jumping = false;
                 this.standing = false;
@@ -499,6 +506,7 @@ Alex.prototype.update = function () {
         } else {
             if (this.alex_taunt_leftAnimation.isDone()) {
                 this.alex_taunt_leftAnimation.elapsedTime = 0;
+                this.slide_punch = false;
                 this.taunt = false;
                 this.jumping = false;
                 this.standing = false;
