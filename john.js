@@ -504,8 +504,10 @@ John.prototype.update = function () {
         }
     }
     if (this.slide_punch) {//slide punch=========================================
+	 this.weak_punch = false;
             if (this.isRight) {
                 if (this.slidePunchRight.currentFrame() === 0) {
+                    this.x += 20;
                     this.myboxes.setAttackBox(this.x + 92, this.y - 100, 80, 25);// right weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -520,6 +522,7 @@ John.prototype.update = function () {
                 }
             } else {
                 if (this.slidePunchLeft.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.x += 20;
                     this.myboxes.setAttackBox(this.x, this.y - 100, -80, 25);// Left weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -664,27 +667,19 @@ John.prototype.update = function () {
             this.x -= 3;
             
         }*/
-        if (this.controlled && this.game.rightArrow && this.x <= 1150) {
-			
-			if(this.slide_punch) {
-				this.x +=20;
-			} else {
-				this.x += 5;
-			}
 
-        } else if (this.controlled && this.game.leftArrow && this.x >= -50) {
+        if (this.controlled && this.rightwalk && this.x <= 1150) {
+            this.x += 5;
 
-			if(this.slide_punch){
-				this.x -=20;
-			} else {
-				this.x -= 5;
-			}
+        } else if (this.controlled && this.leftwalk && this.x >= -50) {
+            this.x -= 5;
+
         }
-
         
     //Entity.prototype.update.call(this);
 }
 John.prototype.stopSPunch = function(){
+	this.weak_punch = false;
 	this.game.rightArrow = false;
 	this.game.leftArrow = false;
 	this.slide_punch = false;
