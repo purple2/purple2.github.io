@@ -412,7 +412,7 @@ Vlad.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }
-                if (this.vlad_slide_punch_rightAnimation.isDone()) {
+                if (!this.game.rightArrow) {
                     this.vlad_slide_punch_rightAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = false;
@@ -426,7 +426,7 @@ Vlad.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }//to here
-                if (this.vlad_slide_punch_leftAnimation.isDone()) {
+                if (!this.game.leftArrow) {
                     this.vlad_slide_punch_leftAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = true;
@@ -574,6 +574,8 @@ Vlad.prototype.update = function () {
     //}//where controlled is
 }
 Vlad.prototype.stopSPunch = function(){
+	this.game.rightArrow = false;
+	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
