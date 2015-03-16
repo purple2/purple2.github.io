@@ -568,14 +568,11 @@ Vlad.prototype.update = function () {
     //}//where controlled is
 }
 Vlad.prototype.stopSPunch = function(){
-	this.weak_punch = false;
-	this.game.rightArrow = false;
-	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
-	this.leftwalk = false;
-	this.rightwalk = false;
+	this.weak_punch = false;
+	this.current_action = false
 }
 Vlad.prototype.draw = function (ctx) {
     //commented this part out since is was used for setting hitboxes testing
