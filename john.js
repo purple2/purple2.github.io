@@ -680,14 +680,11 @@ John.prototype.update = function () {
     //Entity.prototype.update.call(this);
 }
 John.prototype.stopSPunch = function(){
-	this.weak_punch = false;
-	this.game.rightArrow = false;
-	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
-	this.leftwalk = false;
-	this.rightwalk = false;
+	this.weak_punch = false;
+	this.current_action = false
 }
 John.prototype.draw = function (ctx) {
     /*ctx.fillStyle = "DarkGreen";
