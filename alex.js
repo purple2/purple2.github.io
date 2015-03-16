@@ -532,7 +532,7 @@ Alex.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }
-                if (this.alex_slide_punch_rightAnimation.isDone()) {
+                if (!this.game.rightArrow) {
                     this.alex_slide_punch_rightAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = false;
@@ -546,7 +546,7 @@ Alex.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }//to here
-                if (this.alex_slide_punch_leftAnimation.isDone()) {
+                if (!this.game.leftArrow) {
                     this.alex_slide_punch_leftAnimation.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = true;
@@ -705,6 +705,8 @@ Alex.prototype.update = function () {
     Entity.prototype.update.call(this);
 }
 Alex.prototype.stopSPunch = function(){
+	this.game.rightArrow = false;
+	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
