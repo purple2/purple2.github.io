@@ -66,7 +66,7 @@ function Alex(game, isPlayer) {
     
     //slide punch
     this.alex_slide_punch_rightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new.png"), 754.5, 650, 251.5, 325, .1, 1, true, false, 0);
-    this.alex_slide_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 0, 650, 251.5, 325, .1, 1, true, true, 0);
+    this.alex_slide_punch_leftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/alex_sprite_new2.png"), 1002, 650, 251.5, 325, .1, 1, true, true, 0);
     
     //Alex's turf
     this.turf = "./img/narrows.png";
