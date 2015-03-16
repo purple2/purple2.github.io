@@ -258,7 +258,7 @@ Alex.prototype.update = function () {
             this.weak_kick = false;
         }
 		//===========main change for slide punch
-	if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
+	if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping && Math.abs(this.game.Opponent.x - this.x) > 350 && ((!this.game.Opponent.isRight) === this.isRight)) {
 	    this.slide_punch = true;
             this.jumping = false;
             this.strong_kick = false;
@@ -271,6 +271,7 @@ Alex.prototype.update = function () {
             this.standingLeft = false;
             this.sittingRight = false;
             this.sittingLeft = false;
+	    this.current_action = true;
         } 
     }
     if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
