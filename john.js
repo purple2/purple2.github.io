@@ -511,7 +511,7 @@ John.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }
-                if (this.slidePunchRight.isDone()) {
+                if (!this.game.rightArrow) {
                     this.slidePunchRight.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = false;
@@ -525,7 +525,7 @@ John.prototype.update = function () {
                     this.myboxes.attackenemy();
                     this.myboxes.unsetAttack();
                 }//to here
-                if (this.slidePunchLeft.isDone()) {
+                if (!this.game.leftArrow) {
                     this.slidePunchLeft.elapsedTime = 0;
                     this.slide_punch = false;
                     //this.standingLeft = true;
@@ -685,6 +685,8 @@ John.prototype.update = function () {
     //Entity.prototype.update.call(this);
 }
 John.prototype.stopSPunch = function(){
+	this.game.rightArrow = false;
+	this.game.leftArrow = false;
 	this.slide_punch = false;
 	this.game.shift = false;
 	this.game.theAPressed = false;
