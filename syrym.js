@@ -94,6 +94,7 @@ Syrym.prototype.constructor = Syrym;
 Syrym.prototype.loadEnergyBar = function (energy_bar) { this.bar = energy_bar }
 
 Syrym.prototype.updateOrientation = function () {
+    this.offset = 35;
     this.standing = this.isPlayer;
     this.standingLeft = !this.isPlayer;
     this.isRight = this.isPlayer;
