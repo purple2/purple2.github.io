@@ -85,7 +85,7 @@ Boss.prototype.updateOrientation = function () {
     this.bar = new Bar(this.game, this);
     this.offset = 62;
     if (!this.isPlayer) {
-        this.my_ai = new Ai_controller(this.game, 62);
+        this.my_ai = new Ai_controller(this.game, 0);
     }
     Entity.call(this, this.game, this.start, this.ground);
 }
