@@ -248,20 +248,21 @@ Syrym.prototype.update = function () {
             ////////////////////////////////////////////Added weak action booleans^^
         }
 		//===========main change for slide punch
-		if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping) {
-			this.slide_punch = true;
+	if (this.game.shift && this.game.theAPressed && (this.game.rightArrow || this.game.leftArrow)  &&  !this.jumping && Math.abs(this.game.Opponent.x - this.x) > 350 && ((!this.game.Opponent.isRight) === this.isRight)) {
+	    this.slide_punch = true;
             this.jumping = false;
             this.strong_kick = false;
             this.strong_punch = false;
             this.weak_kick = false;
             this.weak_punch = false;
-			this.rightwalk = false;
+	    this.rightwalk = false;
             this.leftwalk = false;
             this.standing = false;
             this.standingLeft = false;
             this.sittingRight = false;
             this.sittingLeft = false;
-        } 
+	    this.current_action = true;
+        }  
     }
 	if (this.bar.greenwidth <= 0) {//----------------------------------------------------------------------------------added if for win/lost here
         this.lost = true;
