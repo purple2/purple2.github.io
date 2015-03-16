@@ -405,8 +405,10 @@ Vlad.prototype.update = function () {
         }
     }
     if (this.slide_punch) {//slide punch=========================================
+        this.weak_punch = false;
             if (this.isRight) {
                 if (this.vlad_slide_punch_rightAnimation.currentFrame() === 0) {
+                    this.x += 20;
                     this.myboxes.setAttackBox(this.x + 80, this.y - 100, 125, 45);// right weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -421,6 +423,7 @@ Vlad.prototype.update = function () {
                 }
             } else {
                 if (this.vlad_slide_punch_leftAnimation.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.x -= 20;
                     this.myboxes.setAttackBox(this.x + 40, this.y - 100, 125, 45);// Left weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -554,26 +557,17 @@ Vlad.prototype.update = function () {
 
 
     }
+    if (this.controlled && this.rightwalk && this.x <= 1100) {
+        this.x += 3;
 
-    if (this.controlled && this.game.rightArrow && this.x <= 1100) {
-			
-		if(this.slide_punch) {
-			this.x +=20;
-		} else {
-			this.x += 3;
-		}
+     } else if (this.controlled && this.leftwalk && this.x >= -50) {
+        this.x -= 3;
 
-    } else if (this.controlled && this.game.leftArrow && this.x >= -50) {
-
-		if(this.slide_punch){
-			this.x -=20;
-		} else {
-			this.x -= 3;
-		}
     }
     //}//where controlled is
 }
 Vlad.prototype.stopSPunch = function(){
+	this.weak_punch = false;
 	this.game.rightArrow = false;
 	this.game.leftArrow = false;
 	this.slide_punch = false;
