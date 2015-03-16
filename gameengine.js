@@ -76,10 +76,23 @@ function GameEngine() {
     this.startMusic = new Music(this,"./sounds/rjones1.mp3", true, .05);
     this.fight = new Music(this, "./sounds/fight.mp3", false, 1);
     this.lost = new Music(this, "./sounds/lost.mp3", false, 1);
-    this.charSelectMusic = new Music(this, "./sounds/charSelectSound.wav", true, .05);
     this.moveSeffect = new SoundEffect(this);
+    
+    this.charSelectMusic = new Music(this, "./sounds/taintedmanson.wav", true, .6);
+	this.musicarray = [
+	new Music(this, "./sounds/blackholesupermassive-----1_4.wav", true, .2), 
+	new Music(this, "./sounds/supremasymuse-----3.wav", true, .08),
+	new Music(this, "./sounds/musehysteria------2.wav", true, .3),
+	new Music(this, "./sounds/blackholesupermassive-----1_4.wav", true, .2)];
 }
-
+GameEngine.prototype.initMusics = function () {
+	this.musicarray.splice(0,4);
+	this.musicarray = [
+	new Music(this, "./sounds/blackholesupermassive-----1_4.wav", true, .2), 
+	new Music(this, "./sounds/supremasymuse-----3.wav", true, .08),
+	new Music(this, "./sounds/musehysteria------2.wav", true, .3),
+	new Music(this, "./sounds/blackholesupermassive-----1_4.wav", true, .2)];
+}
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
     this.surfaceWidth = this.ctx.canvas.width;
@@ -99,6 +112,8 @@ GameEngine.prototype.start = function () {
             that.displayStartup();
         }else if (that.inMenu) {
             that.startMusic.pause();
+			that.musicarray[0].pause();
+			that.initMusics();
             that.charSelectMusic.play();
             that.getSelections();
         } else if (that.inFight) {
@@ -106,6 +121,8 @@ GameEngine.prototype.start = function () {
             ////////console.log("In gameLoop inFight");
             that.loop();
             requestAnimFrame(gameLoop, that.ctx.canvas);
+            that.musicarray[0].play();
+
         } else if(that.gameOver){//------------------------------
             that.displayMessage();
         }//-------------------------------------
@@ -231,6 +248,8 @@ GameEngine.prototype.updateFight = function () {
             //Get next Opponent
             if (this.fightersUsed.length === this._NUM_FIGHTERS) {
                 ////////console.log("YOU ARE THE BADDEST MAN IN T-TOWN!!!");
+				this.musicarray[0].pause();
+				this.initMusics();
                 this.fightersUsed = [];
                 this.inFight = false;
                 this.inMenu = true;
@@ -238,10 +257,14 @@ GameEngine.prototype.updateFight = function () {
             } else if (this.fightersUsed.length === this._NUM_FIGHTERS - 1) {
                 //Load Boss
                 this.loadBoss();
+                this.musicarray[0].pause();
+				this.musicarray.splice(0, 1);
             } else {
                 //get next opponent
                 ////////console.log("Get Next Opponent");
                 this.loadNextFight();
+                this.musicarray[0].pause();
+				this.musicarray.splice(0, 1);
             }
         } else if (this.opponentWins > 1) {
             //Return to Character Select Screen for now, maybe a Continue Option.
