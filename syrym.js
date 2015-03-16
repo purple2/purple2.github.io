@@ -512,8 +512,10 @@ Syrym.prototype.update = function () {
         }
     }//----------------------------------------------------------------------------------added taunt anim here
 		if (this.slide_punch) {//slide punch=========================================
+	    this.weak_punch = false;	
             if (this.isRight) {
                 if (this.syrym_slide_punch_rightAnimation.currentFrame() === 0) {
+                    this.x += 20;
                     this.myboxes.setAttackBox(this.x + 310, this.y - 50, 50, 45);// right weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -528,6 +530,7 @@ Syrym.prototype.update = function () {
                 }
             } else {
                 if (this.syrym_slide_punch_leftAnimation.currentFrame() === 0) {//new code from here 3 is the frame it checks
+                    this.x -= 20;
                     this.myboxes.setAttackBox(this.x + 50, this.y - 50, 50, 45);// Left weak punch hitbox set****
                     this.myboxes.setAttack();
                     this.myboxes.attackenemy();
@@ -670,26 +673,18 @@ Syrym.prototype.update = function () {
             }
         }
 
-        if (this.controlled && this.game.rightArrow && this.x <= 1050) {
-			
-			if(this.slide_punch) {
-				this.x +=20;
-			} else {
-				this.x += 8;
-			}
+        if (this.controlled && this.rightwalk && this.x <= 1050) {
+            this.x += 8;
 
-        } else if (this.controlled && this.game.leftArrow && this.x >= -150) {
+        } else if (this.controlled && this.leftwalk && this.x >= -150) {
+            this.x -= 8;
 
-			if(this.slide_punch){
-				this.x -=20;
-			} else {
-				this.x -= 8;
-			}
         }
     //}//
     //Entity.prototype.update.call(this);
 }
 Syrym.prototype.stopSPunch = function(){
+	this.weak_punch = false;
 	this.game.rightArrow = false;
 	this.game.leftArrow = false;
 	this.slide_punch = false;
