@@ -73,7 +73,7 @@ function GameEngine() {
     this._BOSS_INDEX = 4;
     this._NUM_FIGHTERS = 5;
     this.fightersUsed = [];
-    this.startMusic = new Music(this,"./sounds/rjones1.mp3", true, .05);
+    this.startMusic = new Music(this,"./sounds/rjones1.mp3", true, .08);
     this.fight = new Music(this, "./sounds/fight.mp3", false, 1);
     this.lost = new Music(this, "./sounds/lost.mp3", false, 1);
     this.moveSeffect = new SoundEffect(this);
