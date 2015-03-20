@@ -676,10 +676,10 @@ Syrym.prototype.update = function () {
         }
 
         if (this.controlled && this.rightwalk && this.x <= 1050) {
-            this.x += 8;
+            this.x += 15;
 
         } else if (this.controlled && this.leftwalk && this.x >= -150) {
-            this.x -= 8;
+            this.x -= 15;
 
         }
     //}//
